@@ -19,6 +19,18 @@
       </lbAudio>
     </div>
   </div>
+  <div @mousedown="startDrag" @touchstart="startTouchDrag" class="window" id="lain">
+    <div class="title-bar">
+      <div class="title-bar-text">Lain looking your</div>
+      <div class="title-bar-controls">
+        <button aria-label="Close" @click="closede"></button>
+      </div>
+    </div>
+    <div class="window-body" id="lainsbody">
+      <img src="https://fauux.neocities.org/16c.gif" alt="G O D" style="margin-top: 30px;width: 630px; height: auto;">
+
+    </div>
+  </div>
   <!-- <AudioPlayer class="b" :option=op></AudioPlayer> -->
 </template>
 
@@ -31,7 +43,6 @@ import lbAudio, { type musicListType } from 'lb-audio-v3';
 import 'lb-audio-v3/style'
 
 import { ref, onMounted, onBeforeUnmount } from 'vue';
-
 // 窗口位置
 const position = ref({ x: 10, y: 30 });
 // 拖动状态
@@ -90,16 +101,16 @@ function onTouchMove(event: TouchEvent) {
   }
 }
 
-function closede() {
-  var musicPlay = document.getElementById('mymusic');
-  if (musicPlay) {
-    musicPlay.style.height = '0px'; // 设置高度为0以开始渐隐效果
-    musicPlay.style.overflow = 'hidden'; // 防止内容溢出
+function closede(event) {
+  var closeeee = document.getElementById('event');
+  if (closeeee) {
+    closeeee.style.height = '0px'; // 设置高度为0以开始渐隐效果
+    closeeee.style.overflow = 'hidden'; // 防止内容溢出
 
     // 使用setTimeout在延迟后隐藏元素，注意这里没有传递额外的参数给回调函数
     setTimeout(function () {
-      // 直接使用在外部获取的musicPlay变量
-      musicPlay.style.display = 'none'; // 完全隐藏元素
+      // 直接使用在外部获取的closeeee变量
+      closeeee.style.display = 'none'; // 完全隐藏元素
       console.log('音乐播放器已关闭');
     }, 200); // 延迟200毫秒
   }
@@ -145,6 +156,29 @@ const musicList = ref<musicListType>([
   height: 200px;
   transition: height .2s linear;
   position: absolute;
+}
+
+#lain {
+  background-repeat: repeat;
+  /* 图片将水平和垂直重复 */
+  background-color: #d2738a;
+  /* 当图片未覆盖时显示的背景颜色 */
+  color: #c1b492;
+  width: 600px;
+  height: 600px;
+  transition: height 0.2s linear;
+  /* 高度变化的平滑过渡 */
+  position: absolute;
+  /* 绝对定位 */
+  /* 可能还需要添加 top, right, bottom, 或 left 属性来指定位置 */
+}
+
+#lainsbody {
+  width: 50px;
+  height: 590px;
+  background-image: url(https://fauux.neocities.org/bg/bg_main2.gif.gif);
+  image-rendering: pixelated;
+  background-size: auto;
 }
 
 .d {
