@@ -4,19 +4,21 @@
       <div class="title-bar-text">WDNMD 98</div>
       <div class="title-bar-controls">
       </div>
-    </div> 
+    </div>
   </div>
-  <div  @mousedown="startDrag" class="window" :style="{ top: `${position.y}px`, left: `${position.x}px` }" id="mymusic">
+  <div @mousedown="startDrag" @touchstart="startTouchDrag" class="window"
+    :style="{ top: `${position.y}px`, left: `${position.x}px` }" id="mymusic">
     <div class="title-bar">
       <div class="title-bar-text">A Music player</div>
       <div class="title-bar-controls">
         <button aria-label="Close" @click="closede"></button>
+      </div>
+    </div>
+    <div class="window-body">
+      <lbAudio :musicList="musicList" :index="0" :lyrics="false" :playList="true" style="background: silver;" id="playe">
+      </lbAudio>
     </div>
   </div>
-  <div class="window-body">
-    <lbAudio :musicList="musicList" :index="0" :lyrics="false" :playList="true" style="background: silver;" id="playe"></lbAudio>
-  </div>
-</div>
   <!-- <AudioPlayer class="b" :option=op></AudioPlayer> -->
 </template>
 
@@ -31,7 +33,7 @@ import 'lb-audio-v3/style'
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 // 窗口位置
-const position = ref({ x: 100, y: 100 });
+const position = ref({ x: 10, y: 30 });
 // 拖动状态
 const isDragging = ref(false);
 // 鼠标按下时的坐标与窗口左上角的偏移
@@ -62,25 +64,51 @@ function stopDrag() {
   window.removeEventListener('mousemove', onMouseMove);
   window.removeEventListener('mouseup', stopDrag);
 }
+// 触屏拖动相关变量
+let touchOffset = { x: 0, y: 0 };
 
+// 触屏按下事件
+function startTouchDrag(event: TouchEvent) {
+  if (event.touches.length === 1) {
+    isDragging.value = true;
+    const touch = event.touches[0];
+    touchOffset.x = touch.clientX - position.value.x;
+    touchOffset.y = touch.clientY - position.value.y;
 
-function closede(){
-  var musicplay = document.getElementById('mymusic');
-  if(musicplay){
-    musicplay.style.height = '0';
- 
-  }setTimeout(() => {
-    let musicplay = document.getElementById('mymusic');
-        musicplay.style.display = 'none';
-        console.log('窗口关闭了');
-      }, 200);
+    // 绑定全局的触屏移动和松开事件
+    window.addEventListener('touchmove', onTouchMove);
+    window.addEventListener('touchend', stopDrag);
+  }
 }
 
+// 触屏移动事件
+function onTouchMove(event: TouchEvent) {
+  if (isDragging.value && event.touches.length === 1) {
+    const touch = event.touches[0];
+    position.value.x = touch.clientX - touchOffset.x;
+    position.value.y = touch.clientY - touchOffset.y;
+  }
+}
+
+function closede() {
+  var musicPlay = document.getElementById('mymusic');
+  if (musicPlay) {
+    musicPlay.style.height = '0px'; // 设置高度为0以开始渐隐效果
+    musicPlay.style.overflow = 'hidden'; // 防止内容溢出
+
+    // 使用setTimeout在延迟后隐藏元素，注意这里没有传递额外的参数给回调函数
+    setTimeout(function () {
+      // 直接使用在外部获取的musicPlay变量
+      musicPlay.style.display = 'none'; // 完全隐藏元素
+      console.log('音乐播放器已关闭');
+    }, 200); // 延迟200毫秒
+  }
+}
 
 const op = ref({
   src: '/assets/Vite App.mp3',
   title: '僕らの手には',
-  coverImage:'/assets/RAM WIRE.jpg'
+  coverImage: '/assets/RAM WIRE.jpg'
 
 })
 
@@ -112,21 +140,25 @@ const musicList = ref<musicListType>([
 ]);
 </script>
 <style >
-#mymusic{
-  margin-top: 20px;width: 335px;height: 200px; transition: height .2s linear;
+#mymusic {
+  width: 335px;
+  height: 200px;
+  transition: height .2s linear;
+  position: absolute;
 }
+
 .d {
   /* margin: auto; */
   /* margin-top: 10%; */
   border-radius: 15px;
   display: block;
 }
-.b{
+
+.b {
   float: right;
   width: 200px;
   /* height: 500px; */
-  overflow:hidden;
+  overflow: hidden;
   margin-right: 20px
-  
 }
 </style>
