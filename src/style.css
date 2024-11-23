@@ -1,7 +1,5 @@
 body {
     background: linear-gradient(to right, #fbc7d4, #9796f0);
     margin: 0;
-    /* 如果需要去除默认的 margin */
     padding: 0;
-    /* 如果需要去除默认的 padding */
 }

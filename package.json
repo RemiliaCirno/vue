@@ -9,10 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "98.css": "^0.1.20",
     "alice-player": "^0.0.4",
     "lb-audio-v3": "^1.1.2",
     "vue": "^3.5.12",
-    "vue-router": "^4.4.5"
+    "vue-router": "^4.4.5",
+    "vue3-audio-player": "^1.0.7"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.0",
