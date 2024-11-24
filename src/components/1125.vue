@@ -172,7 +172,7 @@ const musicList = ref<musicListType>([
   {
     name: 'NOTOK',
     author: 'ヒトリエ',
-    url: '/assets/NOTOK.m4a',
+    url: 'http://ys-g.ysepan.com/628276547/821018969/hjsGx8u5J238J557LPGG10/NOTOK.m4a?lx=xz',
     img: 'http://p2.music.126.net/V89JpcVkGSSZHFpZmZlqzQ==/109951170088068396.jpg?param=130y130',
     lrc: `[00:00.000] 作曲 : wowaka
 [00:01.000] 作词 : wowaka
@@ -251,7 +251,7 @@ const musicList = ref<musicListType>([
   {
     name: 'Duvet',
     author: 'Bôa',
-    url: '/assets/Duvet.m4a',
+    url: 'http://ys-g.ysepan.com/628276546/821018968/m5J238J557LPG5hjsGx81e/Duvet.m4a?lx=xz',
     img: '/assets/16c.gif',
     lrc: `[00:00.00] 作词 : Jasmine Rodgers
 [00:00.50] 编曲 : Bôa
@@ -299,14 +299,14 @@ const musicList = ref<musicListType>([
   {
     name: '悠久を漂流う,Magical Astronomy',
     author: 'Reimu ',
-    url: 'https://m10.music.126.net/20241124203442/9de7ff4b66fadac8b2b61603858ba57d/yyaac/5453/025f/0152/c95388366755c2fc3b8c68220bab7990.m4a',
+    url: 'http://ys-g.ysepan.com/628276542/821018967/m5J238J557LPG4hjsGx8a5/%E6%82%A0%E4%B9%85%E3%82%92%E6%BC%82%E6%B5%81%E3%81%86%20_%20%E5%A4%A7%E7%A9%BA%E9%AD%94%E6%9C%AF~Magical%20Astronomy%20[%E5%A4%A7%E7%A9%BA%E9%AD%94%E6%9C%AF~Magical%20Astronomy].m4a?lx=xz',
     img: 'http://p2.music.126.net/-_u6apF2XSR870RJ1xMIgw==/908196604586021.jpg?param=130y130',
-    lrc: ``
+    lrc: `[00:00.00] 轻音乐`
   },
   {
     name: '借口',
     author: '周杰伦 ',
-    url: '/assets/借口_周杰伦.mp3',
+    url: 'http://ys-g.ysepan.com/628276549/821018970/hjsGx8u5J238J557LPGH57/%E5%91%A8%E6%9D%B0%E4%BC%A6%E5%80%9F%E5%8F%A3.m4a?lx=xz',
     img: 'https://img4.kuwo.cn/star/albumcover/500/60/74/2971323563.jpg',
     lrc: `public/assets/Duvet.lrc`
   },
