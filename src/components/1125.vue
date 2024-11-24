@@ -167,25 +167,139 @@ function closeWindow(windowId: string) {
 
 const playOrder = ref<playOrderType>('along');
 type playOrderType = 'along' | 'random' | 'loop';
+
 const musicList = ref<musicListType>([
   {
     name: 'NOTOK',
     author: 'ヒトリエ',
-    url: 'https://m704.music.126.net/20241124172542/7631a644268f4f4d70d53bda0ff89f1e/jdyyaac/obj/w5rDlsOJwrLDjj7CmsOj/56064154066/2b9f/c175/6272/030808d00c5e9f3de64d42ce0b1e8cb9.m4a?authSecret=000001935d66daf31e130a32fb7f0006',
+    url: '/assets/NOTOK.m4a',
     img: 'http://p2.music.126.net/V89JpcVkGSSZHFpZmZlqzQ==/109951170088068396.jpg?param=130y130',
-    lrc: ``
+    lrc: `[00:00.000] 作曲 : wowaka
+[00:01.000] 作词 : wowaka
+[00:02.000] 编曲 : ヒトリエ
+[00:11.729] 戯言たちは風任せ
+[00:15.146] 息を呑んだ少女、夢任せ
+[00:18.756] 嗚呼、
+[00:19.493] 終いにこの街の色も
+[00:22.470] 誰も気付かず変わるのでしょう
+[00:27.080]
+[00:30.638] 振出しまで戻れどまだ
+[00:33.672] 息を止めることはできないな
+[00:38.084] 誰一人と視得ないのは
+[00:41.191] 誰一人あたしじゃないから
+[00:45.166]
+[00:45.231] 宵闇を切る鴉と
+[00:47.318] 朝に怯える声
+[00:49.113] もう良いよ、って
+[00:50.090] 確かめたくて
+[00:51.086] あの娘を探してる
+[00:52.805]
+[00:52.826] その果てに視た答えを
+[00:54.828] この心にくれよ
+[00:56.560] それが誰かを
+[00:58.346] 傷つけたとしても
+[01:00.704]
+[01:00.972] それでも人は続く
+[01:02.829] 呼吸をやめるまで
+[01:04.658] その声を焦がし尽すまで
+[01:08.367] あの娘の夢が覚め
+[01:10.192] 空が白むのなら
+[01:12.115] この戯言だって良いだろう
+[01:14.806]
+[01:15.595] 数秒で終わる世界を
+[01:17.479] 何処までも続けたいんだ
+[01:19.408] 正解不正解なんて
+[01:21.288] あたしの中にしかないわ
+[01:23.651]
+[01:39.988] 戯言たちは風任せ
+[01:42.907] 嗚呼、
+[01:46.709] 息を呑んだ少女、夢任せ
+[01:50.467] 嗚呼、
+[01:51.745]
+[01:54.698] 宵闇を切る鴉と
+[01:56.545] 朝に怯える声
+[01:58.427] もう良いよ、って
+[01:59.312] 確かめたくて
+[02:00.392] あの娘を探してる
+[02:02.179]
+[02:02.254] その果てに視た答えを
+[02:04.077] この心にくれよ
+[02:05.978] それが誰かを
+[02:07.641] 傷つけたとしても
+[02:10.535]
+[02:13.866] それでも人は続く
+[02:15.799] 呼吸をやめるまで
+[02:17.699] その声を焦がし尽すまで
+[02:21.303] あの娘の夢が覚め
+[02:23.303] 空が白むのなら
+[02:25.175] この戯言だって良いだろう
+[02:28.767]
+[02:29.046] それでも人は続く
+[02:30.829] 呼吸をやめるまで
+[02:32.666] その声を焦がし尽すまで
+[02:36.356] あの娘の夢が覚め
+[02:38.290] 空が白むのなら
+[02:40.167] この戯言だって良いだろう
+[02:43.381]
+[02:43.473] 数秒で終わる世界を
+[02:45.585] 何処までも続けたいんだ
+[02:47.414] 正解不正解なんて
+[02:49.290] あたしの中にしかないわ
+[02:51.201] あたしの中にしかないわ
+`
   },
   {
     name: 'Duvet',
     author: 'Bôa',
-    url: 'https://m704.music.126.net/20241124173014/612ef4dcff911f9c4633e70bd3a1490f/jdyyaac/obj/w5rDlsOJwrLDjj7CmsOj/11704850417/3c3b/6d8b/0aaf/cb6ead75e2d5511de35c315c6002bcf6.m4a?authSecret=000001935d6b01f205d10a32d78d0006',
+    url: '/assets/Duvet.m4a',
     img: '/assets/16c.gif',
-    lrc: ``
+    lrc: `[00:00.00] 作词 : Jasmine Rodgers
+[00:00.50] 编曲 : Bôa
+[00:01.01] 作曲 : Lee Sullivan
+[00:01.52]And you don't seem to understand
+[00:06.17]A shame you seemed an honest man
+[00:11.23]And all the fears you hold so dear
+[00:16.45]Will turn to whisper in your ear
+[00:21.40]And you know what they say might hurt you
+[00:24.13]And you know that it means so much
+[00:26.55]And you don't even feel a thing
+[00:31.48]I am falling, I am fading,
+[00:37.17]I have lost it all
+[00:40.42]
+[00:42.06]And you don't seem the lying kind
+[00:47.09]A shame then I can read your mind
+[00:52.17]And all the things that I read there
+[00:57.42]Candle lit smile that we both share
+[01:02.33]And you know I don't mean to hurt you
+[01:05.00]But you know that it means so much
+[01:07.56]And you don't even feel a thing
+[01:12.62]I am falling, I am fading,
+[01:18.11]I am drowning,
+[01:20.73]Help me to breathe
+[01:23.55]I am hurting,I have lost it all
+[01:28.45]I am losing
+[01:30.94]Help me to breathe
+[01:34.02]
+[02:14.68]I am falling, I am fading,
+[02:19.49]I am drowning,
+[02:22.16]Help me to breathe
+[02:24.76]I am hurting,I have lost it all
+[02:29.90]I am losing
+[02:32.32]Help me to breathe
+[02:35.19]
+[02:55.47]I am falling, I am fading,
+[03:00.50]I am drowning,
+[03:03.11]Help me to breathe
+[03:05.39]I am hurting,I have lost it all
+[03:10.82]I am losing
+[03:13.25]Help me to breathe
+[03:17.35]
+`,
   },
   {
     name: '悠久を漂流う,Magical Astronomy',
     author: 'Reimu ',
-    url: 'https://m10.music.126.net/20241124173442/9de7ff4b66fadac8b2b61603858ba57d/yyaac/5453/025f/0152/c95388366755c2fc3b8c68220bab7990.m4a',
+    url: 'https://m10.music.126.net/20241124203442/9de7ff4b66fadac8b2b61603858ba57d/yyaac/5453/025f/0152/c95388366755c2fc3b8c68220bab7990.m4a',
     img: 'http://p2.music.126.net/-_u6apF2XSR870RJ1xMIgw==/908196604586021.jpg?param=130y130',
     lrc: ``
   },
@@ -194,7 +308,7 @@ const musicList = ref<musicListType>([
     author: '周杰伦 ',
     url: '/assets/借口_周杰伦.mp3',
     img: 'https://img4.kuwo.cn/star/albumcover/500/60/74/2971323563.jpg',
-    lrc: ``
+    lrc: `public/assets/Duvet.lrc`
   },
 ]);
 </script>
