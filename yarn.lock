@@ -444,6 +444,11 @@ http-signature@~1.2.0:
     jsprim "^1.2.2"
     sshpk "^1.7.0"
 
+iframe@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmmirror.com/iframe/-/iframe-1.0.0.tgz"
+  integrity sha512-Gn9nkImXrU8xQLvljaVnHFimYwBehKUcHoPG2YaWlXboA1rMsJ2uBzlN5kihaIbdami6PetBINnKR2rxS6GYig==
+
 iota-array@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmmirror.com/iota-array/-/iota-array-1.0.0.tgz"
