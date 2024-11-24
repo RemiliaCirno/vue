@@ -189,14 +189,20 @@ const musicList = ref<musicListType>([
     img: 'http://p2.music.126.net/-_u6apF2XSR870RJ1xMIgw==/908196604586021.jpg?param=130y130',
     lrc: ``
   },
-
+  {
+    name: '借口',
+    author: '周杰伦 ',
+    url: '/assets/借口_周杰伦.mp3',
+    img: 'https://img4.kuwo.cn/star/albumcover/500/60/74/2971323563.jpg',
+    lrc: ``
+  },
 ]);
 </script>
 
 <style scoped>
 #mymusic {
   width: 335px;
-  height: 200px;
+  height: 230px;
   transition: height 0.2s linear, opacity 0.2s linear;
   position: absolute;
 }
