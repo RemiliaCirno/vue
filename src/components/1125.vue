@@ -297,17 +297,17 @@ const musicList = ref<musicListType>([
 `,
   },
   {
-    name: '悠久を漂流う,Magical Astronomy',
-    author: 'Reimu ',
-    url: 'http://ys-g.ysepan.com/628276542/821018967/m5J238J557LPG4hjsGx8a5/%E6%82%A0%E4%B9%85%E3%82%92%E6%BC%82%E6%B5%81%E3%81%86%20_%20%E5%A4%A7%E7%A9%BA%E9%AD%94%E6%9C%AF~Magical%20Astronomy%20[%E5%A4%A7%E7%A9%BA%E9%AD%94%E6%9C%AF~Magical%20Astronomy].m4a?lx=xz',
-    img: 'http://p2.music.126.net/-_u6apF2XSR870RJ1xMIgw==/908196604586021.jpg?param=130y130',
-    lrc: `[00:00.00] 轻音乐`
-  },
-  {
     name: '借口',
     author: '周杰伦 ',
     url: '/assets/借口_周杰伦.mp3',
     img: 'https://img4.kuwo.cn/star/albumcover/500/60/74/2971323563.jpg',
+    lrc: `public/assets/Duvet.lrc`
+  },
+  {
+    name: 'メイドノココロハ アヤツリドール',
+    author: 'あよ',
+    url: '/assets/あよ - メイドノココロハ アヤツリドール.flac',
+    img: 'http://p1.music.126.net/LeI7B-boLQ1Nz8LWlYrDmg==/109951164912363859.jpg?param=130y130',
     lrc: `public/assets/Duvet.lrc`
   },
 ]);
