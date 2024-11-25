@@ -172,7 +172,7 @@ const musicList = ref<musicListType>([
   {
     name: 'NOTOK',
     author: 'ヒトリエ',
-    url: 'http://ys-g.ysepan.com/628276547/821018969/hjsGx8u5J238J557LPGG10/NOTOK.m4a?lx=xz',
+    url: '/assets/NOTOK.m4a',
     img: 'http://p2.music.126.net/V89JpcVkGSSZHFpZmZlqzQ==/109951170088068396.jpg?param=130y130',
     lrc: `[00:00.000] 作曲 : wowaka
 [00:01.000] 作词 : wowaka
@@ -251,7 +251,7 @@ const musicList = ref<musicListType>([
   {
     name: 'Duvet',
     author: 'Bôa',
-    url: 'http://ys-g.ysepan.com/628276546/821018968/m5J238J557LPG5hjsGx81e/Duvet.m4a?lx=xz',
+    url: '/assets/Duvet.m4a',
     img: '/assets/16c.gif',
     lrc: `[00:00.00] 作词 : Jasmine Rodgers
 [00:00.50] 编曲 : Bôa
@@ -306,7 +306,7 @@ const musicList = ref<musicListType>([
   {
     name: '借口',
     author: '周杰伦 ',
-    url: 'http://ys-g.ysepan.com/628276549/821018970/hjsGx8u5J238J557LPGH57/%E5%91%A8%E6%9D%B0%E4%BC%A6%E5%80%9F%E5%8F%A3.m4a?lx=xz',
+    url: '/assets/借口_周杰伦.mp3',
     img: 'https://img4.kuwo.cn/star/albumcover/500/60/74/2971323563.jpg',
     lrc: `public/assets/Duvet.lrc`
   },
