@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="title-bar">
-      <div class="title-bar-text">WDNMD 98</div>
+      <div class="title-bar-text">WDNMD 98 simulator for navi</div>
       <div class="title-bar-controls">
       </div>
     </div>
