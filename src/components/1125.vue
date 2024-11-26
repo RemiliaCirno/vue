@@ -1,16 +1,17 @@
 <template>
   <div>
     <div class="title-bar">
-      <div class="title-bar-text">WDNMD 98 simulator for navi</div>
+      <div class="title-bar-text">WDNMD 98 Simulator for NAVI</div>
       <div class="title-bar-controls">
       </div>
     </div>
   </div>
-  <div @mousedown.stop="startDrag('mymusic', $event)" @touchstart.stop="startTouchDrag('mymusic', $event)" class="window"
-    :class="{ 'closing': windowClosingStatus.mymusic }"
-    :style="{ top: `${position.mymusic.y}px`, left: `${position.mymusic.x}px` }" id="mymusic">
+  <div class="window" :class="{ 'closing': windowClosingStatus.mymusic }"
+    :style="{ top: `${position.mymusic.y}px`, left: `${position.mymusic.x}px`, height: dynamicHeight + 'px' }"
+    id="mymusic">
 
-    <div class="title-bar">
+    <div class="title-bar" @mousedown.stop="startDrag('mymusic', $event)"
+      @touchstart.stop="startTouchDrag('mymusic', $event)">
       <div class="title-bar-text">A Music player</div>
       <div class="title-bar-controls">
         <button aria-label="Close" @click="closeWindow('mymusic')"></button>
@@ -22,10 +23,9 @@
     </div>
   </div>
   <!-- lain -->
-  <div @mousedown.stop="startDrag('lain', $event)" @touchstart.stop="startTouchDrag('lain', $event)" class="window"
-    :class="{ 'closing': windowClosingStatus.lain }"
+  <div class="window" :class="{ 'closing': windowClosingStatus.lain }"
     :style="{ top: `${position.lain.y}px`, left: `${position.lain.x}px` }" id="lain">
-    <div class="title-bar">
+    <div class="title-bar" @mousedown.stop="startDrag('lain', $event)" @touchstart.stop="startTouchDrag('lain', $event)">
       <div class="title-bar-text">Lain looking your</div>
       <div class="title-bar-controls">
         <button aria-label="Close" @click="closeWindow('lain')"></button>
@@ -49,7 +49,7 @@ import "98.css"
 import lbAudio, { type musicListType } from 'lb-audio-v3';
 import 'lb-audio-v3/style'
 
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
 
 // 窗口位置，现在使用对象来存储每个窗口的位置
 const position = ref({
@@ -310,13 +310,20 @@ const musicList = ref<musicListType>([
     img: 'http://p1.music.126.net/LeI7B-boLQ1Nz8LWlYrDmg==/109951164912363859.jpg?param=130y130',
     lrc: `public/assets/Duvet.lrc`
   },
+
 ]);
+//自动增加窗口长度来适配歌曲列表，超过6歌按6歌算
+const dynamicHeight = computed(() => {
+  const maxGroups = 6; // 最大组数（或歌曲数）
+  const actualGroups = Math.min(musicList.value.length, maxGroups); // 实际用于计算的组数
+  // 默认高度为100px，每个音乐组增加32px
+  return 100 + (actualGroups * 32);
+});
 </script>
 
 <style scoped>
 #mymusic {
   width: 335px;
-  height: 230px;
   transition: height 0.2s linear, opacity 0.2s linear;
   position: absolute;
 }
@@ -349,20 +356,6 @@ const musicList = ref<musicListType>([
 
 
 
-.d {
-  /* margin: auto; */
-  /* margin-top: 10%; */
-  border-radius: 15px;
-  display: block;
-}
-
-.b {
-  float: right;
-  width: 200px;
-  /* height: 500px; */
-  overflow: hidden;
-  margin-right: 20px
-}
 
 /* 添加关闭窗口时的过渡效果 */
 .window.closing {
