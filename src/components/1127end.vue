@@ -40,10 +40,11 @@
     <div><button @click="showWindow('mymusic')">A Music player</button></div>
     <div><button @click="showWindow('lain')">Just Lain 'GOD'</button></div>
   </div>
-  <div style="display: flex; flex-direction: column; justify-content: flex-end;transition: height 0.3s linear"
-   :style="{height:`${bodyHeight-41}px`}">
-  <BottomComponent></BottomComponent>
-</div>
+  <div
+    style="display: flex; flex-direction: column; justify-content: flex-end;transition: height 0.5s cubic-bezier(0.42, 0, 0, 0.97)"
+    :style="{ height: `${bodyHeight - 41}px` }">
+    <BottomComponent></BottomComponent>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -388,5 +389,4 @@ const dynamicHeight = computed(() => {
   opacity: 0;
   /* 透明度逐渐变为0 */
 }
-
 </style>
