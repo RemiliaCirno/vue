@@ -40,9 +40,14 @@
     <div><button @click="showWindow('mymusic')">A Music player</button></div>
     <div><button @click="showWindow('lain')">Just Lain 'GOD'</button></div>
   </div>
+  <div style="display: flex; flex-direction: column; justify-content: flex-end;transition: height 0.3s linear"
+   :style="{height:`${bodyHeight-41}px`}">
+  <BottomComponent></BottomComponent>
+</div>
 </template>
 
 <script setup lang="ts">
+import BottomComponent from "./bottom.vue";
 import "98.css"
 // import AudioPlayer from 'vue3-audio-player'
 // import 'vue3-audio-player/dist/style.css'
@@ -50,7 +55,25 @@ import lbAudio, { type musicListType } from 'lb-audio-v3';
 import 'lb-audio-v3/style'
 
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
+const bodyHeight = ref(0);
 
+const updateBodyHeight = () => {
+  bodyHeight.value = window.innerHeight; // 或者使用 offsetHeight 或 clientHeight
+};
+
+onMounted(() => {
+  // 在 Vue 实例挂载到 DOM 后获取初始高度
+  updateBodyHeight();
+
+  // 如果页面内容会动态变化，您可以在这里设置事件监听器
+  // 例如，监听窗口的 resize 事件来更新高度
+  window.addEventListener('resize', updateBodyHeight);
+});
+
+onBeforeUnmount(() => {
+  // 移除在 onMounted 中添加的事件监听器，以避免内存泄漏
+  window.removeEventListener('resize', updateBodyHeight);
+});
 // 窗口位置，现在使用对象来存储每个窗口的位置
 const position = ref({
   mymusic: { x: 10, y: 30 },
@@ -366,12 +389,4 @@ const dynamicHeight = computed(() => {
   /* 透明度逐渐变为0 */
 }
 
-/* 注意：由于我们使用了v-if或v-show来控制窗口的显示，
-   因此实际上不需要在.closing类中添加display: none;
-   因为Vue会根据v-if或v-show的值来自动处理display属性。
-   但是，如果您想要在页面上保留窗口元素但隐藏它，
-   可以使用v-show和opacity属性来控制显示和隐藏，
-   并在.closing类中添加opacity: 0;来实现渐隐效果。
-   如果您想要完全移除窗口元素，应该使用v-if而不是v-show，
-   并在关闭窗口后控制一个变量来决定是否渲染该窗口组件。 */
 </style>
