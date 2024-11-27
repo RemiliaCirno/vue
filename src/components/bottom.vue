@@ -24,6 +24,7 @@ window.onload = function () {
 
 <style>
 .bo {
+    position: relative;
     display: flex;
     /* 使用 Flexbox 布局 */
     justify-content: space-between;
@@ -50,4 +51,5 @@ window.onload = function () {
     align-items: center;
     /* 垂直居中子元素 */
     margin-right: 3px;
-}</style>
+}
+</style>
