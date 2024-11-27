@@ -4,6 +4,7 @@ body {
     padding: 0;
     overflow: hidden;
     height: auto;
+    opacity: 0;
     animation: fadeOpacity 3s cubic-bezier(0.42, 0, 0, 0.7) forwards;
     animation-delay: 0.6s;
 }
