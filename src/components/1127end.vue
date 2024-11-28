@@ -347,6 +347,7 @@ const dynamicHeight = computed(() => {
 
 <style scoped>
 #mymusic {
+  z-index: 8;
   width: 335px;
   transition: height 0.2s linear, opacity 0.2s linear;
   position: absolute;

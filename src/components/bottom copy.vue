@@ -1,8 +1,10 @@
 <template>
     <div>
-        <startmenu :isOpen="isMenuOpen" />
+        <div v-if="showMenu" class="start-menu-overlay">
+            <StartMenu @close="toggleMenu" />
+        </div>
         <div class="taskbar">
-            <button id="start" @click="toggleMenu" class="start-button" style="padding: 0; font-size: 17px;">
+            <button id="start" @click="toggleMenu" style="padding: 0; font-size: 17px;">
                 <img src="/assets/d98.png" alt="" style="margin-left: 5px; width: 20px; height: 20px; float: inline-start;">
                 start
             </button>
@@ -15,26 +17,24 @@
 
 <script setup>
 import "98.css"; // 确保正确导入了CSS文件
-import startmenu from "./StartMenu.vue"
-import { ref, onMounted, defineEmits } from 'vue';
+import StartMenu from './StartMenu.vue';
+import { ref, onMounted } from 'vue';
 
-
+const showMenu = ref(false);
 const systemtime = ref(new Date().toLocaleString());
 
 function updateSystemTime() {
     systemtime.value = new Date().toLocaleString();
 }
 
+function toggleMenu() {
+    showMenu.value = !showMenu.value;
+}
+
 onMounted(() => {
     updateSystemTime();
     setInterval(updateSystemTime, 1000);
 });
-
-const isMenuOpen = ref(false);
-
-function toggleMenu() {
-    isMenuOpen.value = !isMenuOpen.value;
-}
 </script>
 
 <style>
@@ -54,10 +54,6 @@ function toggleMenu() {
     min-height: 0px;
     height: 20px;
     margin-left: 3px;
-    justify-content: center;
-    /* 水平方向居中 */
-    align-items: center;
-    /* 垂直方向居中 */
 }
 
 .container {
@@ -66,4 +62,19 @@ function toggleMenu() {
     align-items: center;
     margin-right: 3px;
 }
+
+.start-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    /* 确保菜单在其他内容之上 */
+}
+
+/* 可以为 StartMenu 组件添加额外的样式以适应覆盖层 */
 </style>
