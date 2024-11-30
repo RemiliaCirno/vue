@@ -33,7 +33,7 @@ function closeWindow(windowId) {
     position: relative;
     height: 300px;
     width: 200px;
-    z-index: 1000;
+    z-index: 9999;
     /* 确保菜单在其他内容之上显示 */
     border-radius: 5px;
     /* 可选：为菜单添加圆角 */

@@ -7,8 +7,8 @@
         </div>
     </div>
     <div class="window" :class="{ 'closing': windowClosingStatus.mymusic }"
-        :style="{ top: `${position.mymusic.y}px`, left: `${position.mymusic.x}px`, height: dynamicHeight + 'px' }"
-        id="mymusic">
+        :style="{ top: `${position.mymusic.y}px`, left: `${position.mymusic.x}px`, height: dynamicHeight + 'px', 'z-index': zIndexvalue.mymusic }"
+        @mousedown.stop="changeZIndex('mymusic', 1)" id="mymusic">
 
         <div class="title-bar" @mousedown.stop="startDrag('mymusic', $event)"
             @touchstart.stop="startTouchDrag('mymusic', $event)">
@@ -25,7 +25,8 @@
     </div>
     <!-- lain -->
     <div class="window" :class="{ 'closing': windowClosingStatus.lain }"
-        :style="{ top: `${position.lain.y}px`, left: `${position.lain.x}px` }" id="lain">
+        :style="{ top: `${position.lain.y}px`, left: `${position.lain.x}px`, 'z-index': zIndexvalue.lain }"
+        @mousedown.stop="changeZIndex('lain', 1)" id="lain">
         <div class="title-bar" @mousedown.stop="startDrag('lain', $event)"
             @touchstart.stop="startTouchDrag('lain', $event)">
             <div class="title-bar-text">Lain looking your</div>
@@ -76,6 +77,32 @@ onBeforeUnmount(() => {
     // 移除在 onMounted 中添加的事件监听器，以避免内存泄漏
     window.removeEventListener('resize', updateBodyHeight);
 });
+
+const zIndexvalue = ref({
+    mymusic: 9,
+    lain: 8,
+});
+
+let maxZIndex = 0;
+let minZIndex = Infinity;
+
+const updateMaxZIndex = () => {
+    maxZIndex = Math.max(...Object.values(zIndexvalue.value)); // Find max z-index from zIndexvalue
+};
+
+const changeZIndex = (id, newIndex) => {
+    const element = document.getElementById(id);
+    if (element) {
+        updateMaxZIndex(); // Dynamically update maxZIndex before applying the change
+        let newZIndex = (newIndex === -1) ? maxZIndex + 1 : maxZIndex + newIndex;// Calculate new z-index based on the change
+        element.style.zIndex = newZIndex.toString(); // 更新 z-index of the element
+        // console.log(`New z-index for element with id "${id}": ${newZIndex}`);
+        zIndexvalue.value[id] = newZIndex;
+    } else {
+        console.error(`Element with id "${id}" not found.`);
+    }
+};
+
 // 窗口位置，现在使用对象来存储每个窗口的位置
 const position = ref({
     mymusic: { x: 10, y: 30 },
@@ -102,6 +129,7 @@ function startDrag(windowName, event) {
 
         window.addEventListener('mousemove', onMouseMove);
         window.addEventListener('mouseup', stopDrag);
+        changeZIndex(windowName, 1);
     }
 }
 
@@ -137,6 +165,7 @@ function startTouchDrag(windowName, event: TouchEvent) {
 
         window.addEventListener('touchmove', onTouchMove);
         window.addEventListener('touchend', stopDrag);
+        changeZIndex(windowName, 1);
     }
 }
 
@@ -202,7 +231,8 @@ const musicList = ref<musicListType>([
         author: 'ヒトリエ',
         url: '/assets/NOTOK.m4a',
         img: 'http://p2.music.126.net/V89JpcVkGSSZHFpZmZlqzQ==/109951170088068396.jpg?param=130y130',
-        lrc: `[00:00.000] 作曲 : wowaka
+        lrc: `
+[00:00.000] 作曲 : wowaka
 [00:01.000] 作词 : wowaka
 [00:02.000] 编曲 : ヒトリエ
 [00:11.729] 戯言たちは風任せ
@@ -281,7 +311,8 @@ const musicList = ref<musicListType>([
         author: 'Bôa',
         url: '/assets/Duvet.m4a',
         img: '/assets/16c.gif',
-        lrc: `[00:00.00] 作词 : Jasmine Rodgers
+        lrc: `
+[00:00.00] 作词 : Jasmine Rodgers
 [00:00.50] 编曲 : Bôa
 [00:01.01] 作曲 : Lee Sullivan
 [00:01.52]And you don't seem to understand
@@ -351,7 +382,6 @@ const dynamicHeight = computed(() => {
 
 <style scoped>
 #mymusic {
-    z-index: 8;
     width: 335px;
     transition: height 0.2s linear, opacity 0.2s linear;
     position: absolute;
