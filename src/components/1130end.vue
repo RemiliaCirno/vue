@@ -31,7 +31,7 @@
             @touchstart.stop="startTouchDrag('lain', $event)">
             <div class="title-bar-text">Lain looking your</div>
             <div class="title-bar-controls">
-                <button aria-label="Close" @click="closeWindow('lain')"></button>
+                <button aria-label="Close" @click="changeZIndex('lain',-1);closeWindow('lain')"></button>
             </div>
 
         </div>
