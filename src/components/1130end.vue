@@ -14,7 +14,7 @@
             @touchstart.stop="startTouchDrag('mymusic', $event)">
             <div class="title-bar-text">A Music player</div>
             <div class="title-bar-controls">
-                <button aria-label="Close" @click="closeWindow('mymusic')"></button>
+                <button aria-label="Close" @click="changeZIndex('mymusic',-1);closeWindow('mymusic')"></button>
             </div>
         </div>
         <div class="window-body">
@@ -87,16 +87,16 @@ let maxZIndex = 0;
 let minZIndex = Infinity;
 
 const updateMaxZIndex = () => {
-    maxZIndex = Math.max(...Object.values(zIndexvalue.value)); // Find max z-index from zIndexvalue
+    maxZIndex = Math.max(...Object.values(zIndexvalue.value)); // 找最大zindex
 };
 
 const changeZIndex = (id, newIndex) => {
     const element = document.getElementById(id);
     if (element) {
-        updateMaxZIndex(); // Dynamically update maxZIndex before applying the change
-        let newZIndex = (newIndex === -1) ? maxZIndex + 1 : maxZIndex + newIndex;// Calculate new z-index based on the change
+        updateMaxZIndex();
+        let newZIndex = (newIndex != "-1") ? maxZIndex + 1 : maxZIndex - 3;
         element.style.zIndex = newZIndex.toString(); // 更新 z-index of the element
-        // console.log(`New z-index for element with id "${id}": ${newZIndex}`);
+        console.log(`New z-index for element with id "${id}": ${newZIndex}`);
         zIndexvalue.value[id] = newZIndex;
     } else {
         console.error(`Element with id "${id}" not found.`);
