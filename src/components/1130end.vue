@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="back"><div>
         <div class="title-bar">
             <div class="title-bar-text">WDNMD 98 Simulator for NAVI</div>
             <div class="title-bar-controls">
@@ -46,7 +46,8 @@
     <div style="display: flex; flex-direction: column; justify-content: flex-end;transition: height 0.5s cubic-bezier(0.42, 0, 0, 0.97)"
         :style="{ height: `${bodyHeight - 17}px` }">
         <BottomComponent></BottomComponent>
-    </div>
+    </div></div>
+    
 </template>
 
 <script setup lang="ts">
@@ -414,7 +415,9 @@ const dynamicHeight = computed(() => {
 }
 
 
-
+#back{
+    background: linear-gradient(to right, #fbc7d4, #9796f0);
+}
 
 /* 添加关闭窗口时的过渡效果 */
 .window.closing {
@@ -424,4 +427,5 @@ const dynamicHeight = computed(() => {
     opacity: 0;
     /* 透明度逐渐变为0 */
 }
+
 </style>
