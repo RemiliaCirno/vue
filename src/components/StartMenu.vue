@@ -17,13 +17,12 @@ const props = defineProps({
     isOpen: Boolean
 });
 
-//下面为控制window的开启
+//下面为控制窗口的开启
 const updateWindowStatus = inject('updateWindowStatus');
 
-// 关闭窗口的函数
+// 打开窗口的函数
 function closeWindow(windowId) {
     updateWindowStatus(windowId, false);
-    // 可以在这里添加额外的逻辑，比如关闭窗口的动画效果
 }
 </script>
 
@@ -34,11 +33,8 @@ function closeWindow(windowId) {
     height: 300px;
     width: 200px;
     z-index: 9999;
-    /* 确保菜单在其他内容之上显示 */
     border-radius: 5px;
-    /* 可选：为菜单添加圆角 */
     overflow: hidden;
-    /* 防止内容溢出 */
     justify-content: end;
 }
 

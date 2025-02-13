@@ -6,7 +6,7 @@
             </div>
         </div>
     </div>
-    <div class="window" :class="{ 'closing': windowClosingStatus.mymusic }"
+    <div v-if="windowShow.mymusic" class="window" :class="{ 'closing': windowClosingStatus.mymusic }"
         :style="{ top: `${position.mymusic.y}px`, left: `${position.mymusic.x}px`, height: dynamicHeight + 'px', 'z-index': zIndexvalue.mymusic }"
         @mousedown.stop="changeZIndex('mymusic', 1)" id="mymusic">
 
@@ -14,7 +14,7 @@
             @touchstart.stop="startTouchDrag('mymusic', $event)">
             <div class="title-bar-text">A Music player</div>
             <div class="title-bar-controls">
-                <button aria-label="Close" @click="changeZIndex('mymusic',-1);closeWindow('mymusic')"></button>
+                <button aria-label="Close" @click="changeZIndex('mymusic', -1); closeWindow('mymusic')"></button>
             </div>
         </div>
         <div class="window-body">
@@ -24,14 +24,14 @@
         </div>
     </div>
     <!-- lain -->
-    <div class="window" :class="{ 'closing': windowClosingStatus.lain }"
+    <div v-if="windowShow.lain" class="window" :class="{ 'closing': windowClosingStatus.lain }"
         :style="{ top: `${position.lain.y}px`, left: `${position.lain.x}px`, 'z-index': zIndexvalue.lain }"
         @mousedown.stop="changeZIndex('lain', 1)" id="lain">
         <div class="title-bar" @mousedown.stop="startDrag('lain', $event)"
             @touchstart.stop="startTouchDrag('lain', $event)">
             <div class="title-bar-text">Lain looking your</div>
             <div class="title-bar-controls">
-                <button aria-label="Close" @click="changeZIndex('lain',-1);closeWindow('lain')"></button>
+                <button aria-label="Close" @click="changeZIndex('lain', -1); closeWindow('lain')"></button>
             </div>
 
         </div>
@@ -188,38 +188,36 @@ interface IsClosing {
     lain: boolean;
     closeMusic(): void;  // 添加一个方法
 }
-
+const windowShow = ref({
+    mymusic: true,
+    lain: true
+});
 const windowClosingStatus = ref({
     mymusic: false,
     lain: false
 });
 // 定义一个函数来更新窗口状态
 function updateWindowStatus(windowId, status) {
-    windowClosingStatus.value[windowId] = status;
-    console.log(`${windowId} 已打开`);
-    // 可以在这里添加额外的逻辑，比如通知其他组件状态已更改
+    windowShow.value[windowId] = true;
+    setTimeout(() => {
+        windowClosingStatus.value[windowId] = status;
+        changeZIndex(windowId, 1);
+        console.log(`${windowId} 已打开`);
+    }, 200)
 }
 
 // 使用provide将windowStatus和updateWindowStatus提供给后代组件
 provide('windowClosingStatus', windowClosingStatus);
 provide('updateWindowStatus', updateWindowStatus);
-//现在移动到startmenu.vue
-// function showWindow(windowId: string) {
-//     // 如果窗口已经是打开状态，则不做任何操作
-//     if (windowClosingStatus.value[windowId]) {
-//         windowClosingStatus.value[windowId] = false; // 重置关闭状态
-//         console.log([windowId] + "被打开了");
-//         // 可以在这里添加额外的逻辑，比如重置窗口位置等
-//     }
-// }
-// 关闭窗口的函数，接收窗口ID作为参数
+
 function closeWindow(windowId: string) {
     windowClosingStatus.value[windowId] = true;
     position.value[windowId].height = '0px';
     // 使用setTimeout模拟渐隐效果结束后的操作
     setTimeout(() => {
+        windowShow.value[windowId] = false;
         console.log(`${windowId} 已关闭`);
-    }, 200);
+    }, 201);
 }
 
 const playOrder = ref<playOrderType>('along');
