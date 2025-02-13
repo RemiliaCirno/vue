@@ -104,9 +104,14 @@ const changeZIndex = (id, newIndex) => {
 };
 
 // 窗口位置，现在使用对象来存储每个窗口的位置
-const position = ref({
+interface WindowPosition {
+    x: number;
+    y: number;
+    height?: string;
+}
+const position = ref<Record<string, WindowPosition>>({
     mymusic: { x: 10, y: 30 },
-    lain: { x: 200, y: 100 } // 假设另一个窗口的初始位置
+    lain: { x: 200, y: 100 },
 });
 
 // 拖动状态
