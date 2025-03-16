@@ -1,6 +1,6 @@
 import './style.css';
 import { createApp } from 'vue'
-import App from './components/0214end.vue'
+import App from './components/now.vue'
 
 // 引入组件
 import lbAudio from 'lb-audio-v3';

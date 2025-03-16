@@ -6,6 +6,7 @@
         <div id="buttonstart">
             <div><button @click="closeWindow('mymusic')">A Music player</button></div>
             <div><button @click="closeWindow('lain')">Just Lain 'GOD'</button></div>
+            <div><button @click="closeWindow('game')">A STG Game</button></div>
         </div>
     </div>
 </template>
