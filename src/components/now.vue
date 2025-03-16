@@ -95,7 +95,7 @@ onBeforeUnmount(() => {
 const zIndexvalue = ref({
     mymusic: 9,
     lain: 8,
-    game: 7,
+    game: 10,
 });
 
 let maxZIndex = 0;
@@ -127,7 +127,7 @@ interface WindowPosition {
 const position = ref<Record<string, WindowPosition>>({
     mymusic: { x: 10, y: 30 },
     lain: { x: 200, y: 100 },
-    game: { x: 400, y: 200 },
+    game: { x: 10, y: 200 },
 });
 
 // 拖动状态
@@ -428,10 +428,11 @@ const dynamicHeight = computed(() => {
     padding: 0;
     margin: 0;
     color: #c1b492;
-    width: 600px;
+    width: 300px;
     height: 600px;
     transition: height 0.2s linear, opacity 0.2s linear;
     position: absolute;
+    box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #dfdfdf, inset -2px -2px grey, inset 2px 2px #fff;
 }
 
 #stg {
