@@ -18,8 +18,8 @@
             </div>
         </div>
         <div class="window-body">
-            <lbAudio :musicList="musicList" :index="0" :lyrics="false" :playList="true" style="background: silver;"
-                id="playe">
+            <lbAudio :musicList="musicList" :index="0" :volume="10" :lyrics="false" :playList="true"
+                style="background: silver;" id="playe">
             </lbAudio>
         </div>
     </div>
