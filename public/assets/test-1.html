@@ -1,12 +1,22 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>弹幕STG</title>
     <style>
-        body { margin: 0; overflow: hidden; touch-action: none; }
-        #gameCanvas { background: #000; }
+        body {
+            margin: 0;
+            overflow: hidden;
+            touch-action: none;
+        }
+
+        #gameCanvas {
+            background: #000;
+            touch-action: none;
+        }
+
         #score {
             position: fixed;
             top: 10px;
@@ -16,6 +26,7 @@
             font-size: 20px;
             z-index: 100;
         }
+
         #gameOver {
             position: fixed;
             top: 50%;
@@ -28,8 +39,10 @@
             display: none;
             z-index: 200;
         }
+
         .panel {
-            display: none; /* 初始隐藏状态 */
+            display: none;
+            /* 初始隐藏状态 */
             position: fixed;
             top: 50%;
             left: 50%;
@@ -42,6 +55,7 @@
             z-index: 300;
             max-width: 300px;
         }
+
         #statsBtn {
             position: fixed;
             top: 10px;
@@ -53,57 +67,71 @@
             border: none;
             cursor: pointer;
         }
-          #statsBtn.active {
-            background: #f00; /* 按钮激活状态指示 */
+
+        #statsBtn.active {
+            background: #f00;
+            /* 按钮激活状态指示 */
         }
+
         #perfPanel {
             top: 20px;
             left: 20px;
-            transform: none; /* 取消居中定位 */
+            transform: none;
+            /* 取消居中定位 */
             max-width: 250px;
             background: rgba(0, 0, 0, 0.7);
             font-size: 14px;
         }
-        #perfPanel div { margin: 5px 0; }
+
+        #perfPanel div {
+            margin: 5px 0;
+        }
+
         #perfBtn {
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    z-index: 100;
-    padding: 5px 10px;
-    background: #666;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    opacity: 0.7;
-    transition: opacity 0.3s;
-}
-#perfBtn:hover { opacity: 1; }
-#perfBtn.active {
-    background: #09f;
-    opacity: 1;
-}
-/* 手机端按钮放大 */
-@media (max-width: 480px) {
-    #perfBtn {
-        padding: 8px 16px;
-        font-size: 16px;
-    }
-}
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 100;
+            padding: 5px 10px;
+            background: #666;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        #perfBtn:hover {
+            opacity: 1;
+        }
+
+        #perfBtn.active {
+            background: #09f;
+            opacity: 1;
+        }
+
+        /* 手机端按钮放大 */
+        @media (max-width: 480px) {
+            #perfBtn {
+                padding: 8px 16px;
+                font-size: 16px;
+            }
+        }
     </style>
     <script src="https://cdn.bootcdn.net/ajax/libs/vConsole/3.3.4/vconsole.min.js"></script>
 </head>
+
 <body>
     <button id="perfBtn" onclick="togglePerf()">性能监控</button>
     <div id="perfPanel" class="panel">
-    <h3>性能监控 <button onclick="togglePerf()" style="float:right; padding:2px 5px;">×</button></h3>
-    <div>FPS: <span id="fpsCounter">0</span></div>
-    <div>内存占用: <span id="memoryUsage">N/A</span></div>
-    <div>对象数: 
-        <span>子弹: <span id="bulletCount">0</span></span> 
-        <span>敌人: <span id="enemyCount">0</span></span>
-    </div>
+        <h3>性能监控 <button onclick="togglePerf()" style="float:right; padding:2px 5px;">×</button></h3>
+        <div>FPS: <span id="fpsCounter">0</span></div>
+        <div>内存占用: <span id="memoryUsage">N/A</span></div>
+        <div>对象数:
+            <span>子弹: <span id="bulletCount">0</span></span>
+            <span>敌人: <span id="enemyCount">0</span></span>
+        </div>
     </div>
     <div id="score">Score: 0 | HP: 3</div>
     <button id="statsBtn" onclick="toggleStats()">统计</button>
@@ -125,566 +153,591 @@
     </div>
     <canvas id="gameCanvas"></canvas>
 
-<script>
-var vConsole = new VConsole();
-// 获取 DOM 元素
-const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
-const scoreElement = document.getElementById('score');
-const gameOverElement = document.getElementById('gameOver');
-const finalScoreElement = document.getElementById('finalScore');
+    <script>
+        var vConsole = new VConsole();
+        // 获取 DOM 元素
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreElement = document.getElementById('score');
+        const gameOverElement = document.getElementById('gameOver');
+        const finalScoreElement = document.getElementById('finalScore');
 
-// 新增统计变量
-let stats = {
-    totalKills: 0,
-    totalItems: 0,
-    highScore: 0,
-    bossKills: 0
-};
-
-// 初始化本地存储
-if(localStorage.getItem('gameStats')) {
-    stats = JSON.parse(localStorage.getItem('gameStats'));
-}
-if(!localStorage.getItem('ranking')) {
-    localStorage.setItem('ranking', JSON.stringify([]));
-}
-
-// 游戏状态变量
-let gameState = 'playing';
-let score = 0;
-let player = {
-    x: 0,
-    y: 0,
-    size: 20,
-    speed: 5,
-    hp: 3,
-    invincible: false,
-    blinkTimer: 0,
-    powerLevel: 1,
-    powerTimer: 0
-};
-let bullets = [];
-let enemies = [];
-let boss = null;
-let bossLevel = 0;
-let nextBossScore = 500;
-let items = [];
-let lastItemSpawn = 0;
-let lastEnemySpawn = 0;
-let touchX = 0;
-let touchY = 0;
-let deltaTime = 16;
-
-// 对象池
-const bulletPool = [];
-const enemyPool = [];
-const itemPool = [];
-
-// 常量
-const MAX_PLAYER_BULLETS = 50;
-const MAX_ENEMY_BULLETS = 100;
-const ENEMY_SPAWN_INTERVAL = 1000;
-const ITEM_SPAWN_INTERVAL = 2000;
-
-// 初始化画布
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    player.x = canvas.width / 2;
-    player.y = canvas.height - 50;
-    touchX = player.x;
-    touchY = player.y;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-// 处理触摸事件
-canvas.addEventListener('touchstart', handleTouch);
-canvas.addEventListener('touchmove', handleTouch);
-function handleTouch(e) {
-    e.preventDefault();
-    const rect = canvas.getBoundingClientRect();
-    const offsetY = 50; // 上移偏移量（可根据需要调整）
-    
-    touchX = e.touches[0].clientX - rect.left;
-    touchY = e.touches[0].clientY - rect.top - offsetY;
-    
-    // 确保不超出屏幕边界
-    touchY = Math.max(player.size, Math.min(canvas.height - player.size, touchY));
-}
-
-// 对象池管理函数
-function getBulletFromPool(isEnemy) {
-    let bullet = bulletPool.find(b => !b.active && b.isEnemy === isEnemy);
-    if (!bullet) {
-        bullet = { x: 0, y: 0, size: 5, speed: 10, active: false, isEnemy };
-        bulletPool.push(bullet);
-    }
-    bullet.active = true;
-    return bullet;
-}
-
-function getEnemyFromPool() {
-    let enemy = enemyPool.find(e => !e.active);
-    if (!enemy) {
-        enemy = { x: 0, y: 0, width: 30, height: 30, hp: 3, speed: 2, active: false, lastShot: 0, canShoot: false };
-        enemyPool.push(enemy);
-    }
-    enemy.active = true;
-    return enemy;
-}
-
-function getItemFromPool() {
-    let item = itemPool.find(i => !i.active);
-    if (!item) {
-        item = { x: 0, y: 0, width: 20, height: 20, type: 'power', active: false, createdAt: 0 };
-        itemPool.push(item);
-    }
-    item.active = true;
-    return item;
-}
-
-// 更新游戏逻辑
-function update() {
-    if (gameState !== 'playing') return;
-
-    const now = Date.now();
-    deltaTime = now - (lastUpdate || now);
-    lastUpdate = now;
-
-    // 玩家移动
-    const moveSpeed = 0.1 * (deltaTime / 16);
-    player.x += (touchX - player.x) * moveSpeed;
-    player.y += (touchY - player.y) * moveSpeed;
-    player.x = Math.max(player.size, Math.min(canvas.width - player.size, player.x));
-    player.y = Math.max(player.size, Math.min(canvas.height - player.size, player.y));
-
-    // 玩家无敌状态
-    if (player.invincible) {
-        player.blinkTimer += deltaTime;
-        if (player.blinkTimer > 1000) {
-            player.invincible = false;
-            player.blinkTimer = 0;
-        }
-    }
-
-    // 道具生成
-    if (now - lastItemSpawn > ITEM_SPAWN_INTERVAL && items.length < 3) {
-        const item = getItemFromPool();
-        item.x = Math.random() * (canvas.width - 20);
-        item.y = -20;
-        item.type = Math.random() > 0.5 ? 'power' : 'health';
-        item.createdAt = now;
-        items.push(item);
-        lastItemSpawn = now;
-    }
-
-    // 更新道具
-    items.forEach((item, index) => {
-        if (!item.active) return;
-        item.y += 2;
-        if (checkCollision(player, item)) {
-            if (item.type === 'power') player.powerLevel = Math.min(3, player.powerLevel + 1);
-            else if (item.type === 'health') player.hp = Math.min(5, player.hp + 1);
-            item.active = false;
-            items.splice(index, 1);
-            stats.totalItems++; // 收集统计
-        }
-        if (now - item.createdAt > 8000 || item.y > canvas.height) {
-            item.active = false;
-            items.splice(index, 1);
-        }
-    });
-
-    // 敌人生成
-    if (now - lastEnemySpawn > ENEMY_SPAWN_INTERVAL) {
-        const enemy = getEnemyFromPool();
-        enemy.x = Math.random() * (canvas.width - enemy.width);
-        enemy.y = -enemy.height;
-        enemy.hp = 3 + Math.floor(score / 1000);
-        enemy.speed = 2 + Math.floor(score / 2000) * 0.5;
-        enemy.canShoot = Math.random() > 0.5;
-        enemy.lastShot = now;
-        enemies.push(enemy);
-        lastEnemySpawn = now;
-    }
-
-    // 更新敌人
-    enemies.forEach((enemy, index) => {
-        if (!enemy.active) return;
-        enemy.y += enemy.speed;
-        if (enemy.canShoot && now - enemy.lastShot > 1500) {
-            const bullet = getBulletFromPool(true);
-            bullet.x = enemy.x + enemy.width / 2;
-            bullet.y = enemy.y + enemy.height;
-            bullet.speed = 3;
-            bullet.angle = Math.atan2(player.y - bullet.y, player.x - bullet.x);
-            bullets.push(bullet);
-            enemy.lastShot = now;
-        }
-        if (enemy.y > canvas.height) {
-            enemy.active = false;
-            enemies.splice(index, 1);
-        }
-    });
-
-    // Boss 生成与更新
-    if (!boss && score >= nextBossScore) {
-        boss = {
-            x: canvas.width / 2 - 50,
-            y: 50,
-            width: 100 + bossLevel * 20,
-            height: 80 + bossLevel * 10,
-            hp: 50 + bossLevel * 30,
-            speed: 1 + bossLevel * 0.3,
-            lastShot: now
+        // 新增统计变量
+        let stats = {
+            totalKills: 0,
+            totalItems: 0,
+            highScore: 0,
+            bossKills: 0
         };
-        bossLevel++;
-        nextBossScore += 1000;
-    }
-    if (boss) {
-        boss.x += boss.speed;
-        if (boss.x < 0 || boss.x > canvas.width - boss.width) boss.speed *= -1;
-        if (now - boss.lastShot > 1000) {
-            const pattern = bossLevel % 2 === 0 ? 8 : 12;
-            for (let i = 0; i < pattern; i++) {
-                const bullet = getBulletFromPool(true);
-                bullet.x = boss.x + boss.width / 2;
-                bullet.y = boss.y + boss.height;
-                bullet.speed = 3 + bossLevel * 0.5;
-                bullet.angle = (i * (2 * Math.PI / pattern));
-                bullets.push(bullet);
+
+        // 初始化本地存储
+        if (localStorage.getItem('gameStats')) {
+            stats = JSON.parse(localStorage.getItem('gameStats'));
+        }
+        if (!localStorage.getItem('ranking')) {
+            localStorage.setItem('ranking', JSON.stringify([]));
+        }
+
+        // 游戏状态变量
+        let gameState = 'playing';
+        let score = 0;
+        let player = {
+            x: 0,
+            y: 0,
+            size: 20,
+            speed: 5,
+            hp: 3,
+            invincible: false,
+            blinkTimer: 0,
+            powerLevel: 1,
+            powerTimer: 0
+        };
+        let bullets = [];
+        let enemies = [];
+        let boss = null;
+        let bossLevel = 0;
+        let nextBossScore = 500;
+        let items = [];
+        let lastItemSpawn = 0;
+        let lastEnemySpawn = 0;
+        let touchX = 0;
+        let touchY = 0;
+        let deltaTime = 16;
+
+        // 对象池
+        const bulletPool = [];
+        const enemyPool = [];
+        const itemPool = [];
+
+        // 常量
+        const MAX_PLAYER_BULLETS = 50;
+        const MAX_ENEMY_BULLETS = 100;
+        const ENEMY_SPAWN_INTERVAL = 1000;
+        const ITEM_SPAWN_INTERVAL = 2000;
+
+        // 初始化画布
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            player.x = canvas.width / 2;
+            player.y = canvas.height - 50;
+            touchX = player.x;
+            touchY = player.y;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // 处理触摸事件
+        canvas.addEventListener('touchstart', handleTouch);
+        canvas.addEventListener('touchmove', handleTouch);
+        function handleTouch(e) {
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            const offsetY = 50; // 上移偏移量（可根据需要调整）
+            updatePlayerPosition(e.touches[0]);
+            // touchX = e.touches[0].clientX - rect.left;
+            // touchY = e.touches[0].clientY - rect.top - offsetY;
+
+            // // 确保不超出屏幕边界
+            // touchY = Math.max(player.size, Math.min(canvas.height - player.size, touchY));
+        }
+
+        canvas.addEventListener('mousedown', handleMouseDown);
+        canvas.addEventListener('mousemove', handleMouseMove);
+        canvas.addEventListener('mouseup', handleMouseUp);
+
+        let isMouseDown = false;
+        function handleMouseDown(e) {
+            isMouseDown = true;
+            updatePlayerPosition(e);
+        }
+        function handleMouseMove(e) {
+            if (isMouseDown) updatePlayerPosition(e);
+        }
+        function handleMouseUp() {
+            isMouseDown = false;
+        }
+        function updatePlayerPosition(e) {
+            const rect = canvas.getBoundingClientRect();
+            const offsetY = 50; // 与触摸事件保持一致
+            touchX = e.clientX - rect.left;
+            touchY = e.clientY - rect.top - offsetY;
+            // 边界检查
+            touchY = Math.max(player.size, Math.min(canvas.height - player.size, touchY));
+        }
+
+        // 对象池管理函数
+        function getBulletFromPool(isEnemy) {
+            let bullet = bulletPool.find(b => !b.active && b.isEnemy === isEnemy);
+            if (!bullet) {
+                bullet = { x: 0, y: 0, size: 5, speed: 10, active: false, isEnemy };
+                bulletPool.push(bullet);
             }
-            boss.lastShot = now;
+            bullet.active = true;
+            return bullet;
         }
-    }
 
-    // 玩家射击
-    if (now % 200 < deltaTime) {
-        const offsets = player.powerLevel === 1 ? [0] : player.powerLevel === 2 ? [-15, 15] : [-25, 0, 25];
-        offsets.forEach(offset => {
-            if (bullets.filter(b => !b.isEnemy && b.active).length < MAX_PLAYER_BULLETS) {
-                const bullet = getBulletFromPool(false);
-                bullet.x = player.x + offset;
-                bullet.y = player.y;
-                bullet.speed = 10;
-                bullets.push(bullet);
+        function getEnemyFromPool() {
+            let enemy = enemyPool.find(e => !e.active);
+            if (!enemy) {
+                enemy = { x: 0, y: 0, width: 30, height: 30, hp: 3, speed: 2, active: false, lastShot: 0, canShoot: false };
+                enemyPool.push(enemy);
             }
-        });
-    }
-
-    // 更新子弹
-    bullets.forEach((bullet, index) => {
-        if (!bullet.active) return;
-        if (bullet.isEnemy) {
-            if (bullet.angle !== undefined) {
-                bullet.x += Math.cos(bullet.angle) * bullet.speed;
-                bullet.y += Math.sin(bullet.angle) * bullet.speed;
-            } else bullet.y += bullet.speed;
-        } else bullet.y -= bullet.speed;
-        if (bullet.y < -50 || bullet.y > canvas.height + 50) {
-            bullet.active = false;
-            bullets.splice(index, 1);
+            enemy.active = true;
+            return enemy;
         }
-    });
 
-    // 碰撞检测
-    checkCollisions();
-
-    // 更新 UI
-    scoreElement.textContent = `Score: ${score} | HP: ${player.hp}`;
-    if (player.hp <= 0) {
-        gameState = 'gameOver';
-        finalScoreElement.textContent = `最终得分：${score}`;
-        gameOverElement.style.display = 'block';
-        updateRanking(); // 更新排行榜
-        if(score > stats.highScore) {
-            stats.highScore = score;
-            localStorage.setItem('gameStats', JSON.stringify(stats));
+        function getItemFromPool() {
+            let item = itemPool.find(i => !i.active);
+            if (!item) {
+                item = { x: 0, y: 0, width: 20, height: 20, type: 'power', active: false, createdAt: 0 };
+                itemPool.push(item);
+            }
+            item.active = true;
+            return item;
         }
-    }
-}
 
-// 碰撞检测函数
-function checkCollision(a, b) {
-    if (!a || !b) return false;
-    if (a.size && b.size) {
-        const dx = a.x - b.x;
-        const dy = a.y - b.y;
-        return Math.sqrt(dx * dx + dy * dy) < a.size + b.size;
-    }
-    const closestX = Math.max(b.x, Math.min(a.x, b.x + b.width));
-    const closestY = Math.max(b.y, Math.min(a.y, b.y + b.height));
-    const dx = closestX - a.x;
-    const dy = closestY - a.y;
-    return (dx * dx + dy * dy) < (a.size * a.size);
-}
+        // 更新游戏逻辑
+        function update() {
+            if (gameState !== 'playing') return;
 
-// 碰撞检测主逻辑
-function checkCollisions() {
-    bullets.forEach((bullet, bIndex) => {
-        if (bullet.isEnemy && !player.invincible && checkCollision(player, bullet)) {
-            player.hp--;
-            bullet.active = false;
-            bullets.splice(bIndex, 1);
-            player.invincible = true;
-            player.blinkTimer = 0;
-        }
-    });
-    enemies.forEach((enemy, eIndex) => {
-        if (!player.invincible && checkCollision(player, enemy)) player.hp = 0;
-        bullets.forEach((bullet, bIndex) => {
-            if (!bullet.isEnemy && checkCollision(bullet, enemy)) {
-                enemy.hp--;
-                bullet.active = false;
-                bullets.splice(bIndex, 1);
-                if (enemy.hp <= 0) {
-                    score += 100;
-                    stats.totalKills++; // 击杀统计
+            const now = Date.now();
+            deltaTime = now - (lastUpdate || now);
+            lastUpdate = now;
+
+            // 玩家移动
+            const moveSpeed = 0.1 * (deltaTime / 16);
+            player.x += (touchX - player.x) * moveSpeed;
+            player.y += (touchY - player.y) * moveSpeed;
+            player.x = Math.max(player.size, Math.min(canvas.width - player.size, player.x));
+            player.y = Math.max(player.size, Math.min(canvas.height - player.size, player.y));
+
+            // 玩家无敌状态
+            if (player.invincible) {
+                player.blinkTimer += deltaTime;
+                if (player.blinkTimer > 1000) {
+                    player.invincible = false;
+                    player.blinkTimer = 0;
+                }
+            }
+
+            // 道具生成
+            if (now - lastItemSpawn > ITEM_SPAWN_INTERVAL && items.length < 3) {
+                const item = getItemFromPool();
+                item.x = Math.random() * (canvas.width - 20);
+                item.y = -20;
+                item.type = Math.random() > 0.5 ? 'power' : 'health';
+                item.createdAt = now;
+                items.push(item);
+                lastItemSpawn = now;
+            }
+
+            // 更新道具
+            items.forEach((item, index) => {
+                if (!item.active) return;
+                item.y += 2;
+                if (checkCollision(player, item)) {
+                    if (item.type === 'power') player.powerLevel = Math.min(3, player.powerLevel + 1);
+                    else if (item.type === 'health') player.hp = Math.min(5, player.hp + 1);
+                    item.active = false;
+                    items.splice(index, 1);
+                    stats.totalItems++; // 收集统计
+                }
+                if (now - item.createdAt > 8000 || item.y > canvas.height) {
+                    item.active = false;
+                    items.splice(index, 1);
+                }
+            });
+
+            // 敌人生成
+            if (now - lastEnemySpawn > ENEMY_SPAWN_INTERVAL) {
+                const enemy = getEnemyFromPool();
+                enemy.x = Math.random() * (canvas.width - enemy.width);
+                enemy.y = -enemy.height;
+                enemy.hp = 3 + Math.floor(score / 1000);
+                enemy.speed = 2 + Math.floor(score / 2000) * 0.5;
+                enemy.canShoot = Math.random() > 0.5;
+                enemy.lastShot = now;
+                enemies.push(enemy);
+                lastEnemySpawn = now;
+            }
+
+            // 更新敌人
+            enemies.forEach((enemy, index) => {
+                if (!enemy.active) return;
+                enemy.y += enemy.speed;
+                if (enemy.canShoot && now - enemy.lastShot > 1500) {
+                    const bullet = getBulletFromPool(true);
+                    bullet.x = enemy.x + enemy.width / 2;
+                    bullet.y = enemy.y + enemy.height;
+                    bullet.speed = 3;
+                    bullet.angle = Math.atan2(player.y - bullet.y, player.x - bullet.x);
+                    bullets.push(bullet);
+                    enemy.lastShot = now;
+                }
+                if (enemy.y > canvas.height) {
                     enemy.active = false;
-                    enemies.splice(eIndex, 1);
+                    enemies.splice(index, 1);
+                }
+            });
+
+            // Boss 生成与更新
+            if (!boss && score >= nextBossScore) {
+                boss = {
+                    x: canvas.width / 2 - 50,
+                    y: 50,
+                    width: 100 + bossLevel * 20,
+                    height: 80 + bossLevel * 10,
+                    hp: 50 + bossLevel * 30,
+                    speed: 1 + bossLevel * 0.3,
+                    lastShot: now
+                };
+                bossLevel++;
+                nextBossScore += 1000;
+            }
+            if (boss) {
+                boss.x += boss.speed;
+                if (boss.x < 0 || boss.x > canvas.width - boss.width) boss.speed *= -1;
+                if (now - boss.lastShot > 1000) {
+                    const pattern = bossLevel % 2 === 0 ? 8 : 12;
+                    for (let i = 0; i < pattern; i++) {
+                        const bullet = getBulletFromPool(true);
+                        bullet.x = boss.x + boss.width / 2;
+                        bullet.y = boss.y + boss.height;
+                        bullet.speed = 3 + bossLevel * 0.5;
+                        bullet.angle = (i * (2 * Math.PI / pattern));
+                        bullets.push(bullet);
+                    }
+                    boss.lastShot = now;
                 }
             }
-        });
-    });
-    if (boss) {
-        bullets.forEach((bullet, bIndex) => {
-            if (!bullet.isEnemy && checkCollision(bullet, boss)) {
-                boss.hp--;
-                bullet.active = false;
-                bullets.splice(bIndex, 1);
-                if (boss.hp <= 0) {
-                    score += 1000 + bossLevel * 500;
-                    stats.bossKills++; // Boss击杀统计
-                    bullets = bullets.filter(b => !b.isEnemy);
-                    boss = null;
-                    lastEnemySpawn = Date.now();
-                    gameState = 'playing';
+
+            // 玩家射击
+            if (now % 200 < deltaTime) {
+                const offsets = player.powerLevel === 1 ? [0] : player.powerLevel === 2 ? [-15, 15] : [-25, 0, 25];
+                offsets.forEach(offset => {
+                    if (bullets.filter(b => !b.isEnemy && b.active).length < MAX_PLAYER_BULLETS) {
+                        const bullet = getBulletFromPool(false);
+                        bullet.x = player.x + offset;
+                        bullet.y = player.y;
+                        bullet.speed = 10;
+                        bullets.push(bullet);
+                    }
+                });
+            }
+
+            // 更新子弹
+            bullets.forEach((bullet, index) => {
+                if (!bullet.active) return;
+                if (bullet.isEnemy) {
+                    if (bullet.angle !== undefined) {
+                        bullet.x += Math.cos(bullet.angle) * bullet.speed;
+                        bullet.y += Math.sin(bullet.angle) * bullet.speed;
+                    } else bullet.y += bullet.speed;
+                } else bullet.y -= bullet.speed;
+                if (bullet.y < -50 || bullet.y > canvas.height + 50) {
+                    bullet.active = false;
+                    bullets.splice(index, 1);
+                }
+            });
+
+            // 碰撞检测
+            checkCollisions();
+
+            // 更新 UI
+            scoreElement.textContent = `Score: ${score} | HP: ${player.hp}`;
+            if (player.hp <= 0) {
+                gameState = 'gameOver';
+                finalScoreElement.textContent = `最终得分：${score}`;
+                gameOverElement.style.display = 'block';
+                updateRanking(); // 更新排行榜
+                if (score > stats.highScore) {
+                    stats.highScore = score;
+                    localStorage.setItem('gameStats', JSON.stringify(stats));
                 }
             }
-        });
-        if (boss && !player.invincible && checkCollision(player, boss)) {
-            player.hp = 0;
         }
-    }
-}
 
-// 绘制游戏画面
-function draw() {
-    ctx.fillStyle = '#000';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // 碰撞检测函数
+        function checkCollision(a, b) {
+            if (!a || !b) return false;
+            if (a.size && b.size) {
+                const dx = a.x - b.x;
+                const dy = a.y - b.y;
+                return Math.sqrt(dx * dx + dy * dy) < a.size + b.size;
+            }
+            const closestX = Math.max(b.x, Math.min(a.x, b.x + b.width));
+            const closestY = Math.max(b.y, Math.min(a.y, b.y + b.height));
+            const dx = closestX - a.x;
+            const dy = closestY - a.y;
+            return (dx * dx + dy * dy) < (a.size * a.size);
+        }
 
-    if (!player.invincible || Math.floor(player.blinkTimer / 100) % 2 === 0) {
-        ctx.fillStyle = '#00f';
-        ctx.beginPath();
-        ctx.arc(player.x, player.y, player.size, 0, Math.PI * 2);
-        ctx.fill();
-    }
+        // 碰撞检测主逻辑
+        function checkCollisions() {
+            bullets.forEach((bullet, bIndex) => {
+                if (bullet.isEnemy && !player.invincible && checkCollision(player, bullet)) {
+                    player.hp--;
+                    bullet.active = false;
+                    bullets.splice(bIndex, 1);
+                    player.invincible = true;
+                    player.blinkTimer = 0;
+                }
+            });
+            enemies.forEach((enemy, eIndex) => {
+                if (!player.invincible && checkCollision(player, enemy)) player.hp = 0;
+                bullets.forEach((bullet, bIndex) => {
+                    if (!bullet.isEnemy && checkCollision(bullet, enemy)) {
+                        enemy.hp--;
+                        bullet.active = false;
+                        bullets.splice(bIndex, 1);
+                        if (enemy.hp <= 0) {
+                            score += 100;
+                            stats.totalKills++; // 击杀统计
+                            enemy.active = false;
+                            enemies.splice(eIndex, 1);
+                        }
+                    }
+                });
+            });
+            if (boss) {
+                bullets.forEach((bullet, bIndex) => {
+                    if (!bullet.isEnemy && checkCollision(bullet, boss)) {
+                        boss.hp--;
+                        bullet.active = false;
+                        bullets.splice(bIndex, 1);
+                        if (boss.hp <= 0) {
+                            score += 1000 + bossLevel * 500;
+                            stats.bossKills++; // Boss击杀统计
+                            bullets = bullets.filter(b => !b.isEnemy);
+                            boss = null;
+                            lastEnemySpawn = Date.now();
+                            gameState = 'playing';
+                        }
+                    }
+                });
+                if (boss && !player.invincible && checkCollision(player, boss)) {
+                    player.hp = 0;
+                }
+            }
+        }
 
-    bullets.forEach(bullet => {
-        if (!bullet.active) return;
-        ctx.fillStyle = bullet.isEnemy ? '#f00' : '#0ff';
-        ctx.beginPath();
-        ctx.arc(bullet.x, bullet.y, bullet.size, 0, Math.PI * 2);
-        ctx.fill();
-    });
+        // 绘制游戏画面
+        function draw() {
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    items.forEach(item => {
-        if (!item.active) return;
-        ctx.fillStyle = item.type === 'power' ? '#0f0' : '#00f';
-        ctx.beginPath();
-        ctx.moveTo(item.x + 10, item.y);
-        ctx.lineTo(item.x + 20, item.y + 20);
-        ctx.lineTo(item.x + 10, item.y + 15);
-        ctx.lineTo(item.x, item.y + 20);
-        ctx.closePath();
-        ctx.fill();
-    });
+            if (!player.invincible || Math.floor(player.blinkTimer / 100) % 2 === 0) {
+                ctx.fillStyle = '#00f';
+                ctx.beginPath();
+                ctx.arc(player.x, player.y, player.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
 
-    enemies.forEach(enemy => {
-        if (!enemy.active) return;
-        ctx.fillStyle = '#f00';
-        ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
-        drawHealthBar(enemy);
-    });
+            bullets.forEach(bullet => {
+                if (!bullet.active) return;
+                ctx.fillStyle = bullet.isEnemy ? '#f00' : '#0ff';
+                ctx.beginPath();
+                ctx.arc(bullet.x, bullet.y, bullet.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
 
-    if (boss) {
-        ctx.fillStyle = `hsl(${300 - bossLevel * 30}, 100%, 50%)`;
-        ctx.fillRect(boss.x, boss.y, boss.width, boss.height);
-        drawBossHealthBar(boss);
-    }
-}
+            items.forEach(item => {
+                if (!item.active) return;
+                ctx.fillStyle = item.type === 'power' ? '#0f0' : '#00f';
+                ctx.beginPath();
+                ctx.moveTo(item.x + 10, item.y);
+                ctx.lineTo(item.x + 20, item.y + 20);
+                ctx.lineTo(item.x + 10, item.y + 15);
+                ctx.lineTo(item.x, item.y + 20);
+                ctx.closePath();
+                ctx.fill();
+            });
 
-// 绘制血量
-function drawHealthBar(target) {
-    const barWidth = target.width;
-    const barHeight = 5;
-    const healthPercent = target.hp / (3 + Math.floor(score / 1000));
-    ctx.fillStyle = '#f00';
-    ctx.fillRect(target.x, target.y - 10, barWidth, barHeight);
-    ctx.fillStyle = '#0f0';
-    ctx.fillRect(target.x, target.y - 10, barWidth * healthPercent, barHeight);
-}
+            enemies.forEach(enemy => {
+                if (!enemy.active) return;
+                ctx.fillStyle = '#f00';
+                ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+                drawHealthBar(enemy);
+            });
 
-function drawBossHealthBar(boss) {
-    const barWidth = boss.width;
-    const barHeight = 8;
-    const maxHp = 50 + bossLevel * 30;
-    const healthPercent = boss.hp / maxHp;
-    ctx.fillStyle = '#444';
-    ctx.fillRect(boss.x, boss.y - 15, barWidth, barHeight);
-    ctx.fillStyle = '#0f0';
-    ctx.fillRect(boss.x, boss.y - 15, barWidth * healthPercent, barHeight);
-}
+            if (boss) {
+                ctx.fillStyle = `hsl(${300 - bossLevel * 30}, 100%, 50%)`;
+                ctx.fillRect(boss.x, boss.y, boss.width, boss.height);
+                drawBossHealthBar(boss);
+            }
+        }
 
-// 游戏循环
-let lastUpdate = Date.now();
-function gameLoop() {
-    update();
-    draw();
-    updatePerformance(); 
-    requestAnimationFrame(gameLoop);
-}
+        // 绘制血量
+        function drawHealthBar(target) {
+            const barWidth = target.width;
+            const barHeight = 5;
+            const healthPercent = target.hp / (3 + Math.floor(score / 1000));
+            ctx.fillStyle = '#f00';
+            ctx.fillRect(target.x, target.y - 10, barWidth, barHeight);
+            ctx.fillStyle = '#0f0';
+            ctx.fillRect(target.x, target.y - 10, barWidth * healthPercent, barHeight);
+        }
 
-// 重启游戏
-function restartGame() {
-    gameState = 'playing';
-    score = 0;
-    player.hp = 3;
-    player.powerLevel = 1;
-    bullets = [];
-    enemies = [];
-    boss = null;
-    bossLevel = 0;
-    nextBossScore = 500;
-    items = [];
-    lastItemSpawn = 0;
-    lastEnemySpawn = 0;
-    gameOverElement.style.display = 'none';
-    document.getElementById('statsPanel').style.display = 'none';
-    // 关闭所有面板
-    document.getElementById('statsPanel').style.display = 'none';
-    document.getElementById('rankingPanel').style.display = 'none';
-    document.getElementById('statsBtn').classList.remove('active');
-}
+        function drawBossHealthBar(boss) {
+            const barWidth = boss.width;
+            const barHeight = 8;
+            const maxHp = 50 + bossLevel * 30;
+            const healthPercent = boss.hp / maxHp;
+            ctx.fillStyle = '#444';
+            ctx.fillRect(boss.x, boss.y - 15, barWidth, barHeight);
+            ctx.fillStyle = '#0f0';
+            ctx.fillRect(boss.x, boss.y - 15, barWidth * healthPercent, barHeight);
+        }
 
-// 统计和排行榜功能
-function updateStatsUI() {
-    document.getElementById('totalKills').textContent = stats.totalKills;
-    document.getElementById('totalItems').textContent = stats.totalItems;
-    document.getElementById('highScore').textContent = stats.highScore;
-    document.getElementById('bossKills').textContent = stats.bossKills;
-}
+        // 游戏循环
+        let lastUpdate = Date.now();
+        function gameLoop() {
+            update();
+            draw();
+            updatePerformance();
+            requestAnimationFrame(gameLoop);
+        }
 
-function updateRanking() {
-    const ranking = JSON.parse(localStorage.getItem('ranking')) || [];
-    ranking.push({
-        score: score,
-        date: new Date().toLocaleString()
-    });
-    
-    // 排序并保留前10名
-    ranking.sort((a, b) => b.score - a.score);
-    const finalRanking = ranking.slice(0, 10);
-    
-    localStorage.setItem('ranking', JSON.stringify(finalRanking));
-    showRanking();
-}
+        // 重启游戏
+        function restartGame() {
+            gameState = 'playing';
+            score = 0;
+            player.hp = 3;
+            player.powerLevel = 1;
+            bullets = [];
+            enemies = [];
+            boss = null;
+            bossLevel = 0;
+            nextBossScore = 500;
+            items = [];
+            lastItemSpawn = 0;
+            lastEnemySpawn = 0;
+            gameOverElement.style.display = 'none';
+            document.getElementById('statsPanel').style.display = 'none';
+            // 关闭所有面板
+            document.getElementById('statsPanel').style.display = 'none';
+            document.getElementById('rankingPanel').style.display = 'none';
+            document.getElementById('statsBtn').classList.remove('active');
+        }
 
-function showRanking() {
-    const ranking = JSON.parse(localStorage.getItem('ranking')) || [];
-    const list = document.getElementById('rankingList');
-    list.innerHTML = ranking.map((entry, i) => 
-        `<li>${i+1}. ${entry.score} (${entry.date})</li>`
-    ).join('');
-}
+        // 统计和排行榜功能
+        function updateStatsUI() {
+            document.getElementById('totalKills').textContent = stats.totalKills;
+            document.getElementById('totalItems').textContent = stats.totalItems;
+            document.getElementById('highScore').textContent = stats.highScore;
+            document.getElementById('bossKills').textContent = stats.bossKills;
+        }
 
-function toggleStats() {
-    const statsPanel = document.getElementById('statsPanel');
-    const rankingPanel = document.getElementById('rankingPanel');
-    const statsBtn = document.getElementById('statsBtn');
-    
-    // 使用getComputedStyle获取实际显示状态
-    const isStatsVisible = window.getComputedStyle(statsPanel).display === 'block';
-    const isRankingVisible = window.getComputedStyle(rankingPanel).display === 'block';
+        function updateRanking() {
+            const ranking = JSON.parse(localStorage.getItem('ranking')) || [];
+            ranking.push({
+                score: score,
+                date: new Date().toLocaleString()
+            });
 
-    if (isStatsVisible || isRankingVisible) {
-        // 如果任意面板可见，则关闭所有面板
-        statsPanel.style.display = 'none';
-        rankingPanel.style.display = 'none';
-        statsBtn.classList.remove('active');
-    } else {
-        // 默认显示统计面板
-        statsPanel.style.display = 'block';
-        rankingPanel.style.display = 'none';
-        statsBtn.classList.add('active');
-        updateStatsUI();
-    }
-}
+            // 排序并保留前10名
+            ranking.sort((a, b) => b.score - a.score);
+            const finalRanking = ranking.slice(0, 10);
 
-// 新增切换排行榜功能
-function showRankingPanel() {
-    document.getElementById('statsPanel').style.display = 'none';
-    document.getElementById('rankingPanel').style.display = 'block';
-    showRanking();
-}
+            localStorage.setItem('ranking', JSON.stringify(finalRanking));
+            showRanking();
+        }
 
-// 新增切换排行榜功能
-function showRankingPanel() {
-    document.getElementById('statsPanel').style.display = 'none';
-    document.getElementById('rankingPanel').style.display = 'block';
-    showRanking();
-}
-// 性能监控变量
-let perf = {
-    lastFpsUpdate: Date.now(),
-    frameCount: 0,
-    fps: 0,
-    isMonitoring: false
-};
+        function showRanking() {
+            const ranking = JSON.parse(localStorage.getItem('ranking')) || [];
+            const list = document.getElementById('rankingList');
+            list.innerHTML = ranking.map((entry, i) =>
+                `<li>${i + 1}. ${entry.score} (${entry.date})</li>`
+            ).join('');
+        }
 
-// 更新性能数据函数
-function updatePerformance() {
-    if (!perf.isMonitoring) return;
+        function toggleStats() {
+            const statsPanel = document.getElementById('statsPanel');
+            const rankingPanel = document.getElementById('rankingPanel');
+            const statsBtn = document.getElementById('statsBtn');
 
-    // 计算FPS
-    perf.frameCount++;
-    const now = Date.now();
-    if (now - perf.lastFpsUpdate >= 1000) {
-        perf.fps = perf.frameCount;
-        perf.frameCount = 0;
-        perf.lastFpsUpdate = now;
-        document.getElementById('fpsCounter').textContent = perf.fps;
-    }
+            // 使用getComputedStyle获取实际显示状态
+            const isStatsVisible = window.getComputedStyle(statsPanel).display === 'block';
+            const isRankingVisible = window.getComputedStyle(rankingPanel).display === 'block';
 
-    // 内存占用（仅Chrome支持）
-    if (performance.memory) {
-        const memoryMB = (performance.memory.usedJSHeapSize / 1024 / 1024).toFixed(2);
-        document.getElementById('memoryUsage').textContent = `${memoryMB} MB`;
-    }
+            if (isStatsVisible || isRankingVisible) {
+                // 如果任意面板可见，则关闭所有面板
+                statsPanel.style.display = 'none';
+                rankingPanel.style.display = 'none';
+                statsBtn.classList.remove('active');
+            } else {
+                // 默认显示统计面板
+                statsPanel.style.display = 'block';
+                rankingPanel.style.display = 'none';
+                statsBtn.classList.add('active');
+                updateStatsUI();
+            }
+        }
 
-    // 实时对象数量
-    document.getElementById('bulletCount').textContent = bullets.filter(b => b.active).length;
-    document.getElementById('enemyCount').textContent = enemies.filter(e => e.active).length;
-}
+        // 新增切换排行榜功能
+        function showRankingPanel() {
+            document.getElementById('statsPanel').style.display = 'none';
+            document.getElementById('rankingPanel').style.display = 'block';
+            showRanking();
+        }
 
-// 切换监控面板显示
-function togglePerf() {
-    const panel = document.getElementById('perfPanel');
-    const btn = document.getElementById('perfBtn');
-    perf.isMonitoring = !perf.isMonitoring;
-    
-    // 切换面板和按钮状态
-    panel.style.display = perf.isMonitoring ? 'block' : 'none';
-    btn.classList.toggle('active', perf.isMonitoring);
-    
-    // 首次打开时立即更新数据
-    if (perf.isMonitoring) updatePerformance();
-}
+        // 新增切换排行榜功能
+        function showRankingPanel() {
+            document.getElementById('statsPanel').style.display = 'none';
+            document.getElementById('rankingPanel').style.display = 'block';
+            showRanking();
+        }
+        // 性能监控变量
+        let perf = {
+            lastFpsUpdate: Date.now(),
+            frameCount: 0,
+            fps: 0,
+            isMonitoring: false
+        };
 
-// 初始化游戏
-gameLoop();
-</script>
+        // 更新性能数据函数
+        function updatePerformance() {
+            if (!perf.isMonitoring) return;
+
+            // 计算FPS
+            perf.frameCount++;
+            const now = Date.now();
+            if (now - perf.lastFpsUpdate >= 1000) {
+                perf.fps = perf.frameCount;
+                perf.frameCount = 0;
+                perf.lastFpsUpdate = now;
+                document.getElementById('fpsCounter').textContent = perf.fps;
+            }
+
+            // 内存占用（仅Chrome支持）
+            if (performance.memory) {
+                const memoryMB = (performance.memory.usedJSHeapSize / 1024 / 1024).toFixed(2);
+                document.getElementById('memoryUsage').textContent = `${memoryMB} MB`;
+            }
+
+            // 实时对象数量
+            document.getElementById('bulletCount').textContent = bullets.filter(b => b.active).length;
+            document.getElementById('enemyCount').textContent = enemies.filter(e => e.active).length;
+        }
+
+        // 切换监控面板显示
+        function togglePerf() {
+            const panel = document.getElementById('perfPanel');
+            const btn = document.getElementById('perfBtn');
+            perf.isMonitoring = !perf.isMonitoring;
+
+            // 切换面板和按钮状态
+            panel.style.display = perf.isMonitoring ? 'block' : 'none';
+            btn.classList.toggle('active', perf.isMonitoring);
+
+            // 首次打开时立即更新数据
+            if (perf.isMonitoring) updatePerformance();
+        }
+
+        // 初始化游戏
+        gameLoop();
+    </script>
 </body>
+
 </html>
