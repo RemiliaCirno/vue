@@ -4,9 +4,29 @@
             <span class="start-menu-title">WDNMD 98 Simulator for NAVI</span>
         </div>
         <div id="buttonstart">
-            <div><button @click="closeWindow('mymusic')">A Music player</button></div>
-            <div><button @click="closeWindow('lain')">Just Lain 'GOD'</button></div>
-            <div><button @click="closeWindow('game')">A STG Game</button></div>
+            <div><button @click="closeWindow('mymusic')" class="Music">
+                    <img src="/assets/icos/wm-4.png" alt="">
+                    <div>A Music player</div>
+                </button>
+            </div>
+            <div>
+                <button @click="closeWindow('lain')" class="God">
+                    <img src="/assets/icos/computer_explorer_cool-0.png" alt="">
+                    <div>Just Lain'GOD'</div>
+                </button>
+            </div>
+            <div>
+                <button @click="closeWindow('game')" classs="Game">
+                    <img src="/assets/icos/joystick-5.png" alt="">
+                    <div>A STG Game</div>
+                </button>
+            </div>
+            <div class="Refresh">
+                <button @click="reload()" class="re">
+                    <img src="/assets/icos/msg_error-0.png" alt="">
+                    <div>Refresh</div>
+                </button>
+            </div>
         </div>
     </div>
 </template>
@@ -24,6 +44,9 @@ const updateWindowStatus = inject('updateWindowStatus');
 // 打开窗口的函数
 function closeWindow(windowId) {
     updateWindowStatus(windowId, false);
+}
+function reload() {
+    location.reload()
 }
 </script>
 
@@ -58,6 +81,13 @@ function closeWindow(windowId) {
 }
 
 button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px;
+}
+
+button {
     font-size: small;
     width: 159px;
     height: 40px;
@@ -69,5 +99,15 @@ button:hover {
     color: silver;
     text-align: center;
     background-color: #1d50be;
+}
+
+img {
+    width: 25px;
+    height: 25px;
+    flex-shrink: 0;
+}
+
+.Refresh {
+    margin-top: 140px;
 }
 </style>

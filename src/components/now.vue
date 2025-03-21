@@ -44,6 +44,7 @@
         @mousedown.stop="changeZIndex('game', 1)" id="game">
         <div class="title-bar" @mousedown.stop="startDrag('game', $event)"
             @touchstart.stop="startTouchDrag('game', $event)">
+            <img src="/assets/icos/joystick-5.png" alt="" style="width: 16px;height: 16px;margin-left: 5px;">
             <div class="title-bar-text">STG Game</div>
             <div class="title-bar-controls">
                 <button aria-label="Close" @click="changeZIndex('game', -1); closeWindow('game')"></button>
@@ -210,12 +211,12 @@ interface IsClosing {
     closeMusic(): void;  // 添加一个方法
 }
 const windowShow = ref({
-    mymusic: true,
+    mymusic: false,
     lain: true,
     game: true
 });
 const windowClosingStatus = ref({
-    mymusic: false,
+    mymusic: true,
     lain: false,
     game: false
 });

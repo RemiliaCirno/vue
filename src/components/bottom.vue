@@ -3,7 +3,8 @@
         <startmenu :isOpen="isMenuOpen" />
         <div class="taskbar">
             <button id="start" @click="toggleMenu" class="start-button" style="padding: 0; font-size: 17px;">
-                <img src="/assets/d98.png" alt="" style="margin-left: 5px; width: 20px; height: 20px; float: inline-start;">
+                <img src="/assets/icos/windows-0.png" alt=""
+                    style="margin-left: 5px; width: 20px; height: 20px; float: inline-start;">
                 start
             </button>
             <div class="container">
