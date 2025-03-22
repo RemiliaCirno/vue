@@ -2,7 +2,7 @@
 <template>
     <div class="boot-screen" @keydown.esc="skipBoot">
         <div class="boot-container">
-            <img src="/assets/d98.png" alt="windows98logo" style="width: 400px;margin-left: 110px;">
+            <img src="/assets/d98.png" alt="windows98logo" style="width: 400px;margin-left: 9%;">
             <h1>Windows 98</h1>
             <h3> Simulator for NAVI</h3>
             <div class="status-text">{{ currentStatus }}</div>
