@@ -6,6 +6,7 @@
             </div>
         </div>
     </div>
+    <!-- player -->
     <div v-if="windowShow.mymusic" class="window" :class="{ 'closing': windowClosingStatus.mymusic }"
         :style="{ top: `${position.mymusic.y}px`, left: `${position.mymusic.x}px`, height: dynamicHeight + 'px', 'z-index': zIndexvalue.mymusic }"
         @mousedown.stop="changeZIndex('mymusic', 1)" id="mymusic">
