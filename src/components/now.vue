@@ -1,84 +1,86 @@
 <template>
     <div>
-        <div class="title-bar">
-            <div class="title-bar-text">WDNMD 98 Simulator for NAVI</div>
-            <div class="title-bar-controls">
+        <div>
+            <div class="title-bar">
+                <div class="title-bar-text">WDNMD 98 Simulator for NAVI</div>
+                <div class="title-bar-controls">
+                </div>
             </div>
         </div>
-    </div>
-    <!-- wubaka -->
-    <div v-if="windowShow.baka" class="window" :class="{ 'closing': windowClosingStatus.baka }"
-        :style="{ top: `${position.baka.y}px`, left: `${position.baka.x}px`, 'z-index': zIndexvalue.baka }"
-        @mousedown.stop="changeZIndex('baka', 1)" id="baka">
-        <div class="title-bar" @mousedown.stop="startDrag('baka', $event)"
-            @touchstart.stop="startTouchDrag('baka', $event)">
-            <div class="title-bar-text">五狸子抱baka，试试点击baka</div>
-            <div class="title-bar-controls">
-                <button aria-label="Close" @click="changeZIndex('baka', -1); closeWindow('baka')"></button>
-            </div>
+        <!-- wubaka -->
+        <div v-if="windowShow.baka" class="window" :class="{ 'closing': windowClosingStatus.baka }"
+            :style="{ top: `${position.baka.y}px`, left: `${position.baka.x}px`, 'z-index': zIndexvalue.baka }"
+            @mousedown.stop="changeZIndex('baka', 1)" id="baka">
+            <div class="title-bar" @mousedown.stop="startDrag('baka', $event)"
+                @touchstart.stop="startTouchDrag('baka', $event)">
+                <div class="title-bar-text">五狸子抱baka，试试点击baka</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Close" @click="changeZIndex('baka', -1); closeWindow('baka')"></button>
+                </div>
 
+            </div>
+            <div class="window-body" id="bakabody">
+                <img src="/assets/wubaka.jpg" alt="baka" style="width: 300px; height: auto;" @click.stop="goToBaka">
+            </div>
         </div>
-        <div class="window-body" id="bakabody">
-            <img src="/assets/wubaka.jpg" alt="baka" style="width: 300px; height: auto;" @click.stop="goToBaka">
-        </div>
-    </div>
-    <!-- player -->
-    <div v-if="windowShow.mymusic" class="window" :class="{ 'closing': windowClosingStatus.mymusic }"
-        :style="{ top: `${position.mymusic.y}px`, left: `${position.mymusic.x}px`, height: dynamicHeight + 'px', 'z-index': zIndexvalue.mymusic }"
-        @mousedown.stop="changeZIndex('mymusic', 1)" id="mymusic">
+        <!-- player -->
+        <div v-if="windowShow.mymusic" class="window" :class="{ 'closing': windowClosingStatus.mymusic }"
+            :style="{ top: `${position.mymusic.y}px`, left: `${position.mymusic.x}px`, height: dynamicHeight + 'px', 'z-index': zIndexvalue.mymusic }"
+            @mousedown.stop="changeZIndex('mymusic', 1)" id="mymusic">
 
-        <div class="title-bar" @mousedown.stop="startDrag('mymusic', $event)"
-            @touchstart.stop="startTouchDrag('mymusic', $event)">
-            <div class="title-bar-text">A Music player</div>
-            <div class="title-bar-controls">
-                <button aria-label="Close" @click="changeZIndex('mymusic', -1); closeWindow('mymusic')"></button>
+            <div class="title-bar" @mousedown.stop="startDrag('mymusic', $event)"
+                @touchstart.stop="startTouchDrag('mymusic', $event)">
+                <div class="title-bar-text">A Music player</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Close" @click="changeZIndex('mymusic', -1); closeWindow('mymusic')"></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <lbAudio :musicList="musicList" :index="0" :volume="10" :lyrics="false" :playList="true"
+                    style="background: silver;" id="playe">
+                </lbAudio>
             </div>
         </div>
-        <div class="window-body">
-            <lbAudio :musicList="musicList" :index="0" :volume="10" :lyrics="false" :playList="true"
-                style="background: silver;" id="playe">
-            </lbAudio>
-        </div>
-    </div>
-    <!-- lain -->
-    <div v-if="windowShow.lain" class="window" :class="{ 'closing': windowClosingStatus.lain }"
-        :style="{ top: `${position.lain.y}px`, left: `${position.lain.x}px`, 'z-index': zIndexvalue.lain }"
-        @mousedown.stop="changeZIndex('lain', 1)" id="lain">
-        <div class="title-bar" @mousedown.stop="startDrag('lain', $event)"
-            @touchstart.stop="startTouchDrag('lain', $event)">
-            <div class="title-bar-text">Lain looking your</div>
-            <div class="title-bar-controls">
-                <button aria-label="Close" @click="changeZIndex('lain', -1); closeWindow('lain')"></button>
-            </div>
+        <!-- lain -->
+        <div v-if="windowShow.lain" class="window" :class="{ 'closing': windowClosingStatus.lain }"
+            :style="{ top: `${position.lain.y}px`, left: `${position.lain.x}px`, 'z-index': zIndexvalue.lain }"
+            @mousedown.stop="changeZIndex('lain', 1)" id="lain">
+            <div class="title-bar" @mousedown.stop="startDrag('lain', $event)"
+                @touchstart.stop="startTouchDrag('lain', $event)">
+                <div class="title-bar-text">Lain looking your</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Close" @click="changeZIndex('lain', -1); closeWindow('lain')"></button>
+                </div>
 
-        </div>
-        <div class="window-body" id="lainsbody">
-            <img src="/assets/16c.gif" alt="G O D" style="margin-top: 30px;width: 630px; height: auto;">
-        </div>
-    </div>
-    <!-- game -->
-    <div v-if="windowShow.game" class="window" :class="{ 'closing': windowClosingStatus.game }"
-        :style="{ top: `${position.game.y}px`, left: `${position.game.x}px`, 'z-index': zIndexvalue.game }"
-        @mousedown.stop="changeZIndex('game', 1)" id="game">
-        <div class="title-bar" @mousedown.stop="startDrag('game', $event)"
-            @touchstart.stop="startTouchDrag('game', $event)">
-            <img src="/assets/icos/joystick-5.png" alt="" style="width: 16px;height: 16px;margin-left: 5px;">
-            <div class="title-bar-text">STG Game</div>
-            <div class="title-bar-controls">
-                <button aria-label="Close" @click="changeZIndex('game', -1); closeWindow('game')"></button>
+            </div>
+            <div class="window-body" id="lainsbody">
+                <img src="/assets/16c.gif" alt="G O D" style="margin-top: 30px;width: 630px; height: auto;">
             </div>
         </div>
-        <div class="window-body" style="margin: 1px;">
-            <iframe src="/assets/test-1.html" frameborder="0" id="stg"></iframe>
+        <!-- game -->
+        <div v-if="windowShow.game" class="window" :class="{ 'closing': windowClosingStatus.game }"
+            :style="{ top: `${position.game.y}px`, left: `${position.game.x}px`, 'z-index': zIndexvalue.game }"
+            @mousedown.stop="changeZIndex('game', 1)" id="game">
+            <div class="title-bar" @mousedown.stop="startDrag('game', $event)"
+                @touchstart.stop="startTouchDrag('game', $event)">
+                <img src="/assets/icos/joystick-5.png" alt="" style="width: 16px;height: 16px;margin-left: 5px;">
+                <div class="title-bar-text">STG Game</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Close" @click="changeZIndex('game', -1); closeWindow('game')"></button>
+                </div>
+            </div>
+            <div class="window-body" style="margin: 1px;">
+                <iframe src="/assets/test-1.html" frameborder="0" id="stg"></iframe>
+            </div>
         </div>
-    </div>
-    <!-- <div id="buttonstart">
+        <!-- <div id="buttonstart">
     <div><button @click="showWindow('mymusic')">A Music player</button></div>
     <div><button @click="showWindow('lain')">Just Lain 'GOD'</button></div>
   </div> -->
-    <div style="display: flex; flex-direction: column; justify-content: flex-end;transition: height 0.5s cubic-bezier(0.42, 0, 0, 0.97)"
-        :style="{ height: `${bodyHeight - 17}px` }">
-        <BottomComponent></BottomComponent>
+        <div style="display: flex; flex-direction: column; justify-content: flex-end;transition: height 0.5s cubic-bezier(0.42, 0, 0, 0.97)"
+            :style="{ height: `${bodyHeight - 17}px` }">
+            <BottomComponent></BottomComponent>
+        </div>
     </div>
 </template>
 
@@ -94,7 +96,8 @@ import 'lb-audio-v3/style'
 
 import { ref, onMounted, onBeforeUnmount, computed, provide } from 'vue';
 const goToBaka = () => {
-  router.push({ name: 'Baka' })
+
+    router.push({ name: 'Baka' })
 }
 const bodyHeight = ref(0);
 
@@ -117,7 +120,7 @@ onBeforeUnmount(() => {
 });
 
 const zIndexvalue = ref({
-    baka: 7,
+    baka: 11,
     mymusic: 9,
     lain: 8,
     game: 10,
@@ -150,7 +153,7 @@ interface WindowPosition {
     height?: string;
 }
 const position = ref<Record<string, WindowPosition>>({
-    baka: {x:10,y:40},
+    baka: { x: 10, y: 40 },
     mymusic: { x: 10, y: 30 },
     lain: { x: 200, y: 100 },
     game: { x: 10, y: 200 },
@@ -237,13 +240,13 @@ interface IsClosing {
     closeMusic(): void;  // 添加一个方法
 }
 const windowShow = ref({
-    baka:true,
+    baka: true,
     mymusic: false,
     lain: true,
     game: true
 });
 const windowClosingStatus = ref({
-    baka:false,
+    baka: false,
     mymusic: true,
     lain: false,
     game: false
@@ -446,11 +449,13 @@ const dynamicHeight = computed(() => {
     /* 绝对定位 */
     /* 可能还需要添加 top, right, bottom, 或 left 属性来指定位置 */
 }
+
 #bakabody {
     margin: 0;
     image-rendering: pixelated;
     background-size: auto;
 }
+
 #mymusic {
     width: 335px;
     transition: height 0.2s linear, opacity 0.2s linear;

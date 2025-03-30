@@ -1,8 +1,7 @@
 <template>
     <div class="container" ref="container" @click="handleFirstInteraction">
         <!-- 弹跳动画元素 -->
-        <button v-if="!isPlaying" class="fixed top-4 left-4 p-2 bg-blue-500 text-white rounded"
-            @click.stop="spawnImage">
+        <button v-if="!isPlaying" class="fixed top-4 left-4 p-2 bg-blue-500 text-white rounded" @click.stop="spawnImage">
             Baka? baka!
         </button>
     </div>
@@ -15,48 +14,49 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 const audio = ref(null)
 const hasInteracted = ref(false)
 const isPlaying = ref(false)
-import { 
-  onBeforeRouteUpdate,
-  onBeforeRouteLeave 
+import {
+    onBeforeRouteUpdate,
+    onBeforeRouteLeave
 } from 'vue-router'
+
 
 
 // 离开路由时清理资源
 onBeforeRouteLeave(() => {
-  clearInterval(autoSpawnTimer)
-  images.value.forEach(img => container.value.removeChild(img.element))
-  images.value = []
+    clearInterval(autoSpawnTimer)
+    images.value.forEach(img => container.value.removeChild(img.element))
+    images.value = []
 })
 const resetState = () => {
-  clearInterval(autoSpawnTimer)
-  images.value.forEach(img => container.value.removeChild(img.element))
-  images.value = []
-  startAutoSpawn() // 重新启动自动生成
-  update()         // 重启动画循环
+    clearInterval(autoSpawnTimer)
+    images.value.forEach(img => container.value.removeChild(img.element))
+    images.value = []
+    startAutoSpawn() // 重新启动自动生成
+    update()         // 重启动画循环
 }
 // 初始化音频（兼容浏览器策略）
 onMounted(() => {
-  if (!audio.value) {
-    audio.value = new Audio('assets/11122.mp3')
-    audio.value.loop = true
-    audio.value.muted = true
-    audio.value.autoplay = true
-  }
+    if (!audio.value) {
+        audio.value = new Audio('assets/11122.mp3')
+        audio.value.loop = true
+        audio.value.muted = true
+        audio.value.autoplay = false
+    }
 })
 
 // 处理首次交互
 const handleFirstInteraction = async () => {
-    if (hasInteracted.value) return
-    hasInteracted.value = true
+    if (hasInteracted.value) return;
+    hasInteracted.value = true;
 
     try {
-        audio.value.muted = false
-        await audio.value.play()
-        isPlaying.value = true
+        audio.value.muted = false;
+        await audio.value.play(); // 用户点击后播放
+        isPlaying.value = true;
     } catch (err) {
-        console.error('音频播放失败:', err)
+        console.error('音频播放失败:', err);
     }
-}
+};
 
 // 容器引用
 const container = ref(null)
