@@ -18,7 +18,7 @@
             </div>
 
         </div>
-        <div class="window-body" id="bakabody">
+        <div class="window-body" id="bakabody" @click="router.push('/baka')">
             <img src="/assets/wubaka.jpg" alt="baka" style="width: 300px; height: auto;">
         </div>
     </div>
@@ -83,6 +83,8 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router';
+const router = useRouter()
 import BottomComponent from "./bottom.vue";
 import "98.css"
 // import AudioPlayer from 'vue3-audio-player'
