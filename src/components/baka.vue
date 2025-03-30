@@ -15,13 +15,33 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 const audio = ref(null)
 const hasInteracted = ref(false)
 const isPlaying = ref(false)
+import { 
+  onBeforeRouteUpdate,
+  onBeforeRouteLeave 
+} from 'vue-router'
 
+
+// 离开路由时清理资源
+onBeforeRouteLeave(() => {
+  clearInterval(autoSpawnTimer)
+  images.value.forEach(img => container.value.removeChild(img.element))
+  images.value = []
+})
+const resetState = () => {
+  clearInterval(autoSpawnTimer)
+  images.value.forEach(img => container.value.removeChild(img.element))
+  images.value = []
+  startAutoSpawn() // 重新启动自动生成
+  update()         // 重启动画循环
+}
 // 初始化音频（兼容浏览器策略）
 onMounted(() => {
+  if (!audio.value) {
     audio.value = new Audio('assets/11122.mp3')
     audio.value.loop = true
-    audio.value.muted = true // 初始静音以绕过限制‌:ml-citation{ref="1" data="citationList"}
-    audio.value.autoplay = true // 尝试自动播放
+    audio.value.muted = true
+    audio.value.autoplay = true
+  }
 })
 
 // 处理首次交互

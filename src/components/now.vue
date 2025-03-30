@@ -18,8 +18,8 @@
             </div>
 
         </div>
-        <div class="window-body" id="bakabody" @click="router.push('/baka')">
-            <img src="/assets/wubaka.jpg" alt="baka" style="width: 300px; height: auto;">
+        <div class="window-body" id="bakabody">
+            <img src="/assets/wubaka.jpg" alt="baka" style="width: 300px; height: auto;" @click.stop="goToBaka">
         </div>
     </div>
     <!-- player -->
@@ -93,6 +93,9 @@ import lbAudio, { type musicListType } from 'lb-audio-v3';
 import 'lb-audio-v3/style'
 
 import { ref, onMounted, onBeforeUnmount, computed, provide } from 'vue';
+const goToBaka = () => {
+  router.push({ name: 'Baka' })
+}
 const bodyHeight = ref(0);
 
 const updateBodyHeight = () => {
