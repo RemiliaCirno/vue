@@ -6,6 +6,22 @@
             </div>
         </div>
     </div>
+    <!-- wubaka -->
+    <div v-if="windowShow.baka" class="window" :class="{ 'closing': windowClosingStatus.baka }"
+        :style="{ top: `${position.baka.y}px`, left: `${position.baka.x}px`, 'z-index': zIndexvalue.baka }"
+        @mousedown.stop="changeZIndex('baka', 1)" id="baka">
+        <div class="title-bar" @mousedown.stop="startDrag('baka', $event)"
+            @touchstart.stop="startTouchDrag('baka', $event)">
+            <div class="title-bar-text">五狸子抱baka，试试点击baka</div>
+            <div class="title-bar-controls">
+                <button aria-label="Close" @click="changeZIndex('baka', -1); closeWindow('baka')"></button>
+            </div>
+
+        </div>
+        <div class="window-body" id="bakabody">
+            <img src="/assets/wubaka.jpg" alt="baka" style="width: 300px; height: auto;">
+        </div>
+    </div>
     <!-- player -->
     <div v-if="windowShow.mymusic" class="window" :class="{ 'closing': windowClosingStatus.mymusic }"
         :style="{ top: `${position.mymusic.y}px`, left: `${position.mymusic.x}px`, height: dynamicHeight + 'px', 'z-index': zIndexvalue.mymusic }"
@@ -40,6 +56,7 @@
             <img src="/assets/16c.gif" alt="G O D" style="margin-top: 30px;width: 630px; height: auto;">
         </div>
     </div>
+    <!-- game -->
     <div v-if="windowShow.game" class="window" :class="{ 'closing': windowClosingStatus.game }"
         :style="{ top: `${position.game.y}px`, left: `${position.game.x}px`, 'z-index': zIndexvalue.game }"
         @mousedown.stop="changeZIndex('game', 1)" id="game">
@@ -95,6 +112,7 @@ onBeforeUnmount(() => {
 });
 
 const zIndexvalue = ref({
+    baka: 7,
     mymusic: 9,
     lain: 8,
     game: 10,
@@ -127,6 +145,7 @@ interface WindowPosition {
     height?: string;
 }
 const position = ref<Record<string, WindowPosition>>({
+    baka: {x:10,y:40},
     mymusic: { x: 10, y: 30 },
     lain: { x: 200, y: 100 },
     game: { x: 10, y: 200 },
@@ -207,16 +226,19 @@ function onTouchMove(event: TouchEvent) {
 // document.getElementById('mymusic-drag-handle').addEventListener('touchstart', (event) => startTouchDrag('mymusic', event));
 // 关闭窗口的状态（使用对象来跟踪每个窗口的关闭状态）
 interface IsClosing {
+    baka: boolean;
     mymusic: boolean;
     lain: boolean;
     closeMusic(): void;  // 添加一个方法
 }
 const windowShow = ref({
+    baka:true,
     mymusic: false,
     lain: true,
     game: true
 });
 const windowClosingStatus = ref({
+    baka:false,
     mymusic: true,
     lain: false,
     game: false
@@ -404,6 +426,26 @@ const dynamicHeight = computed(() => {
 </script>
 
 <style scoped>
+#baka {
+    background-image: url(/assets/bg_main2.gif);
+    /* background-repeat: repeat;
+  /* 图片将水平和垂直重复 */
+    background-color: #d2738a;
+    /* 当图片未覆盖时显示的背景颜色 */
+    color: #c1b492;
+    width: 300px;
+    height: 321px;
+    transition: heigt 0.2s linear, opacity 0.2s linear;
+    /* 高度变化的平滑过渡 */
+    position: absolute;
+    /* 绝对定位 */
+    /* 可能还需要添加 top, right, bottom, 或 left 属性来指定位置 */
+}
+#bakabody {
+    margin: 0;
+    image-rendering: pixelated;
+    background-size: auto;
+}
 #mymusic {
     width: 335px;
     transition: height 0.2s linear, opacity 0.2s linear;
