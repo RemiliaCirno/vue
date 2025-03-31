@@ -1,15 +1,19 @@
 <template>
-    <div class="container" ref="container" @click="handleFirstInteraction">
+    <div class="container" ref="container" @click="handleFirstInteraction" @click.stop="spawnImage">
         <!-- 弹跳动画元素 -->
         <button v-if="!isPlaying" class="fixed top-4 left-4 p-2 bg-blue-500 text-white rounded" @click.stop="spawnImage">
             Baka? baka!
         </button>
+        <!-- <div style="display: flex; flex-direction: column; justify-content: flex-end;transition: height 0.5s cubic-bezier(0.42, 0, 0, 0.97)"
+            :style="{ height: `${bodyHeight - 17}px` }">
+            <BottomComponent></BottomComponent>
+        </div> -->
     </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-
+// import BottomComponent from "./bottom.vue";
 // 音频控制逻辑
 const audio = ref(null)
 const hasInteracted = ref(false)

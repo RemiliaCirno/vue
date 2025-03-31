@@ -33,6 +33,8 @@
 
 <script setup>
 import "98.css"
+import { useRouter } from 'vue-router';
+const router = useRouter()
 import { defineProps, inject } from 'vue';
 const props = defineProps({
     isOpen: Boolean
@@ -46,7 +48,7 @@ function closeWindow(windowId) {
     updateWindowStatus(windowId, false);
 }
 function reload() {
-    location.reload()
+    router.push({ name: 'Boot' })
 }
 </script>
 
