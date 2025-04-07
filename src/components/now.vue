@@ -515,15 +515,15 @@ const dynamicHeight = computed(() => {
     box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #dfdfdf, inset -2px -2px grey, inset 2px 2px #fff;
 }
 
-#touhoustggame{
+#touhoustggame {
     position: absolute;
     width: 500px;
-    height: 600px;
+    height: 823px;
 }
 
-#touhoustg{
+#touhoustg {
     width: 500px;
-    height: 577px;
+    height: 800px;
 }
 
 #lainsbody {
