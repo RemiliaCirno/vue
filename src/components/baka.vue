@@ -38,6 +38,7 @@ const resetState = () => {
     startAutoSpawn() // 重新启动自动生成
     update()         // 重启动画循环
 }
+
 // 初始化音频（兼容浏览器策略）
 onMounted(() => {
     if (!audio.value) {

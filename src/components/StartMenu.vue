@@ -21,6 +21,12 @@
                     <div>A STG Game</div>
                 </button>
             </div>
+            <div>
+                <button @click="closeWindow('touhoustg')" classs="Game">
+                    <img src="/assets/icos/joystick-5.png" alt="">
+                    <div>A STG Game</div>
+                </button>
+            </div>
             <div class="Refresh">
                 <button @click="reload()" class="re">
                     <img src="/assets/icos/msg_error-0.png" alt="">
@@ -110,6 +116,6 @@ img {
 }
 
 .Refresh {
-    margin-top: 140px;
+    margin-top: 100px;
 }
 </style>

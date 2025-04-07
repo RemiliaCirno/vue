@@ -73,6 +73,22 @@
                 <iframe src="/assets/test-1.html" frameborder="0" id="stg"></iframe>
             </div>
         </div>
+        <!-- touhougame -->
+        <div v-if="windowShow.touhoustg" class="window" :class="{ 'closing': windowClosingStatus.touhoustg }"
+            :style="{ top: `${position.touhoustg.y}px`, left: `${position.touhoustg.x}px`, 'z-index': zIndexvalue.touhoustg }"
+            @mousedown.stop="changeZIndex('touhoustg', 1)" id="touhoustggame">
+            <div class="title-bar" @mousedown.stop="startDrag('touhoustg', $event)"
+                @touchstart.stop="startTouchDrag('touhoustg', $event)">
+                <img src="/assets/icos/joystick-5.png" alt="" style="width: 16px;height: 16px;margin-left: 5px;">
+                <div class="title-bar-text">Touhou like</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Close" @click="changeZIndex('touhoustg', -1); closeWindow('touhoustg')"></button>
+                </div>
+            </div>
+            <div class="window-body" style="margin: 1px;">
+                <iframe src="/assets/touhoulike.html" frameborder="0" id="touhoustg"></iframe>
+            </div>
+        </div>
         <!-- <div id="buttonstart">
     <div><button @click="showWindow('mymusic')">A Music player</button></div>
     <div><button @click="showWindow('lain')">Just Lain 'GOD'</button></div>
@@ -124,6 +140,7 @@ const zIndexvalue = ref({
     mymusic: 9,
     lain: 8,
     game: 10,
+    touhoustg: 11,
 });
 
 let maxZIndex = 0;
@@ -157,6 +174,7 @@ const position = ref<Record<string, WindowPosition>>({
     mymusic: { x: 10, y: 30 },
     lain: { x: 200, y: 100 },
     game: { x: 10, y: 200 },
+    touhoustg: { x: 200, y: 15 },
 });
 
 // 拖动状态
@@ -243,13 +261,15 @@ const windowShow = ref({
     baka: true,
     mymusic: false,
     lain: true,
-    game: true
+    game: true,
+    touhoustg: true
 });
 const windowClosingStatus = ref({
     baka: false,
     mymusic: true,
     lain: false,
-    game: false
+    game: false,
+    touhoustg: false
 });
 // 定义一个函数来更新窗口状态
 function updateWindowStatus(windowId, status) {
@@ -490,9 +510,20 @@ const dynamicHeight = computed(() => {
 }
 
 #stg {
-    width: 100%;
+    width: 300px;
     height: 577px;
     box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #dfdfdf, inset -2px -2px grey, inset 2px 2px #fff;
+}
+
+#touhoustggame{
+    position: absolute;
+    width: 500px;
+    height: 600px;
+}
+
+#touhoustg{
+    width: 500px;
+    height: 577px;
 }
 
 #lainsbody {
