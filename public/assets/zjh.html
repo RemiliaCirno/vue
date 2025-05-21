@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>郑竞航的个人简历</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .resume-container {
+            width: 210mm;
+            height: 280mm;
+            margin: 0 auto;
+            padding: 10mm;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .name {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .photo-placeholder {
+            width: 35mm;
+            height: 45mm;
+            border: 1px dashed #999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            background-color: #f9f9f9;
+        }
+
+        .section {
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #3498db;
+            border-left: 4px solid #3498db;
+            padding-left: 10px;
+            margin-bottom: 10px;
+        }
+
+        .info-item {
+            display: flex;
+            margin-bottom: 8px;
+        }
+
+        .info-label {
+            width: 80px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .info-content {
+            flex: 1;
+        }
+
+        .education-item,
+        .experience-item {
+            margin-bottom: 12px;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+        }
+
+        .item-title {
+            color: #2c3e50;
+        }
+
+        .item-date {
+            color: #7f8c8d;
+        }
+
+        .item-details {
+            margin-top: 5px;
+            color: #555;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .skill-item {
+            background-color: #e8f4fc;
+            color: #3498db;
+            padding: 5px 10px;
+            border-radius: 3px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        .download-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 8px 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .download-btn:hover {
+            background-color: #2980b9;
+        }
+
+        @media print {
+            .download-btn {
+                display: none;
+            }
+
+            body {
+                background-color: white;
+            }
+
+            .resume-container {
+                box-shadow: none;
+                padding: 15mm;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="resume-container">
+        <div class="header">
+            <div>
+                <div class="name">郑竞航</div>
+                <div class="info-item">
+                    <div class="info-label">求职意向</div>
+                    <div class="info-content">鲜食技工等相关岗位</div>
+                </div>
+            </div>
+            <div class="photo-placeholder"><img src="zjhico.jpg" alt="" class="photo-placeholder"></div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">基本信息</div>
+            <div class="info-item">
+                <div class="info-label">电话</div>
+                <div class="info-content">18006927553</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">邮箱</div>
+                <div class="info-content">2329585658@qq.com</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">家庭住址</div>
+                <div class="info-content">福州仓山</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">政治面貌</div>
+                <div class="info-content">共青团员</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">教育背景</div>
+            <div class="education-item">
+                <div class="item-header">
+                    <div class="item-title">泉州海洋职业学院 - 计算机应用技术专业</div>
+                    <div class="item-date">2023年9月 - 2026年6月</div>
+                </div>
+                <div class="item-details">
+                    专科学历 | 主修课程：计算机网络、数据库原理、Web开发、Java程序设计等
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">专业技能</div>
+            <div class="skills">
+                <div class="skill-item">HTML5/CSS3</div>
+                <div class="skill-item">C语言技术</div>
+                <div class="skill-item">MySQL应用技术</div>
+                <div class="skill-item">JavaScript</div>
+                <div class="skill-item">Java基础</div>
+                <div class="skill-item">Office办公软件</div>
+                <div class="skill-item">Photoshop基础</div>
+                <div class="skill-item">网络维护</div>
+                <div class="skill-item">计算机硬件维护</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">项目经验</div>
+            <div class="experience-item">
+                <div class="item-header">
+                    <div class="item-title">第十五届全国大学生电子商务“创新、创意及创业”挑战赛<strong style="color: red;">荣获二等奖</strong></div>
+                    <div class="item-date">2025年3月7日</div>
+                </div>
+                <div class="item-details">
+                    • 参与PPT制作与宣讲<br>
+                    • 负责页面布局与样式编写<br>
+                    • 与团队成员协作完成路演与答辩
+                </div>
+            </div>
+
+        </div>
+
+        <div class="section">
+            <div class="section-title">自我评价</div>
+            <div class="item-details">
+                • 团队组织能力强，在校期间作为团支书积累经验<br>
+                • 学习能力强，有良好的沟通能力<br>
+                • 良好的团队协作精神，能够快速融入团队<br>
+                • 工作认真负责，有较强的执行力和抗压能力<br>
+                • 对新技术保持热情，愿意不断学习和提升自己
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
