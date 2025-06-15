@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>王世涛的个人简历</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .resume-container {
+            width: 210mm;
+            /* height: 311mm; */
+            margin: 0 auto;
+            padding: 10mm;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .name {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .photo-placeholder {
+            width: 35mm;
+            border-radius: 5px;
+            border: 1px  #999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            background-color: #f9f9f9;
+        }
+
+        .section {
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #3498db;
+            border-left: 4px solid #3498db;
+            padding-left: 10px;
+            margin-bottom: 10px;
+        }
+
+        .info-item {
+            display: flex;
+            margin-bottom: 8px;
+        }
+
+        .info-label {
+            width: 80px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .info-content {
+            flex: 1;
+        }
+
+        .education-item,
+        .experience-item {
+            margin-bottom: 12px;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+        }
+
+        .item-title {
+            color: #2c3e50;
+        }
+
+        .item-date {
+            color: #7f8c8d;
+        }
+
+        .item-details {
+            margin-top: 5px;
+            color: #555;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .skill-item {
+            background-color: #e8f4fc;
+            color: #3498db;
+            padding: 5px 10px;
+            border-radius: 3px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        .download-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 8px 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .download-btn:hover {
+            background-color: #2980b9;
+        }
+
+        @media print {
+            .download-btn {
+                display: none;
+            }
+
+            body {
+                background-color: white;
+            }
+
+            .resume-container {
+                box-shadow: none;
+                padding: 15mm;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="resume-container">
+        <div class="header">
+            <div>
+                <div class="name">王世涛</div>
+                <div class="info-item">
+                </div>
+            </div>
+            <div class="photo-placeholder"><img src="wstico.png" alt="" class="photo-placeholder"></div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">基本信息</div>
+            <div class="info-item">
+                <div class="info-label">电话</div>
+                <div class="info-content">13154956618</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">邮箱</div>
+                <div class="info-content">tomwangst@163.com</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">家庭住址</div>
+                <div class="info-content">福州三明</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">政治面貌</div>
+                <div class="info-content">群众</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">教育背景</div>
+            <div class="education-item">
+                <div class="item-header">
+                    <div class="item-title">泉州海洋职业学院 - 计算机应用技术专业</div>
+                    <div class="item-date">2023年9月 - 2026年6月</div>
+                </div>
+                <div class="item-details">
+                    专科学历 | 主修课程：计算机网络、数据库原理、Web开发、Java程序设计等
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">专业技能</div>
+            <div class="skills">
+                <div class="skill-item">Vue/HTML5/CSS3</div>
+                <div class="skill-item">单片机开发</div>
+                <div class="skill-item">PCB设计与绘制</div>
+                <div class="skill-item">焊接技术</div>
+                <div class="skill-item">Android系统架构</div>
+                <div class="skill-item">C语言技术</div>
+                <div class="skill-item">JavaScript</div>
+                <div class="skill-item">J2ME功能机软件基础</div>
+                <div class="skill-item">精通DOS时代Windows</div>
+                <div class="skill-item">资深老硬件维护和使用</div>
+                <div class="skill-item">虚拟机使用与配置</div>
+                <div class="skill-item">计算机硬件维护</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">获奖经历</div>
+            <div class="experience-item">
+                <div class="item-header">
+                    <div class="item-title">第十六届蓝桥杯大赛软件赛Web应用技术三等奖</div>
+                    <div class="item-date">2025年4月12日</div>
+                </div>
+                <div class="item-header">
+                    <div class="item-title">第十六届蓝桥杯大赛电子赛单片机设计与开发三等奖</div>
+                    <div class="item-date">2025年4月13日</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">项目经验</div>
+            <div class="item-header">TPA3116功放设计制作</div><div class="item-date">2022年</div>
+            <div class="item-details">
+                • 由两片TPA3116进行BTL连接组成的2.0功放板，每路功率100W，支持蓝牙、AUX输入<br>
+                • 蓝牙部分使用m18模块<br>
+                • 两电位器分别调节音量大小和左右声道平衡<br>
+            </div>
+            <div class="item-header">Xiang TPhone K1手机设计</div><div class="item-date">2023年</div>
+            <div class="item-details">
+                • 使用联发科5G平台<br>
+                • 深度定制的Android13 For Web3<br>
+                • <a href="Xirang.jpg">登陆 HongKong FinTech</a>
+            </div>
+            <div class="item-header">设计魔改老显卡</div><div class="item-date">2024年</div>
+            <div class="item-details">
+                • 更换老化电解电容为固态电容，更换来自Winbond大容量Rom芯片<br>
+                • 修改显卡Bios以支持UEFI GOP，实现新电脑正常使用<br>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">自我评价</div>
+            <div class="item-details">
+                • 团队组织能力强<br>
+                • 学习能力强，有良好的沟通能力<br>
+                • 良好的团队协作精神，能够快速融入团队<br>
+                • 工作认真负责，有较强的执行力和抗压能力<br>
+                • 对新技术保持热情，愿意不断学习和提升自己
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
