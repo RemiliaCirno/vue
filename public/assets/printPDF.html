@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shitao Wang's Resume</title>
+  <style>
+    body {
+      font-family: 'Microsoft YaHei', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+    }
+
+    .resume-container {
+      width: 210mm;
+      margin: 0 auto;
+      padding: 10mm;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      box-sizing: border-box;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+
+    .name {
+      font-size: 28px;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+
+    .photo {
+      width: 35mm;
+      border-radius: 5px;
+      border: 1px solid #999;
+      object-fit: cover;
+    }
+
+    .section {
+      margin-bottom: 15px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #3498db;
+      border-left: 4px solid #3498db;
+      padding-left: 10px;
+      margin-bottom: 10px;
+    }
+
+    .info-item {
+      display: flex;
+      margin-bottom: 8px;
+    }
+
+    .info-label {
+      width: 80px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    .info-content {
+      flex: 1;
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      font-weight: bold;
+    }
+
+    .item-title {
+      color: #2c3e50;
+    }
+
+    .item-date {
+      color: #7f8c8d;
+    }
+
+    .item-details {
+      margin-top: 5px;
+      color: #555;
+    }
+
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .skill-item {
+      background-color: #e8f4fc;
+      color: #3498db;
+      padding: 5px 10px;
+      border-radius: 3px;
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+
+    .project-image {
+      max-width: 100%;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+
+    @media print {
+      body {
+        background-color: white;
+      }
+
+      .resume-container {
+        box-shadow: none;
+        padding: 15mm;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="resume-container">
+    <div class="header">
+      <div>
+        <div class="name">Shitao Wang</div>
+      </div>
+      <div>
+        <img src="wstico.png" alt="Photo" class="photo" />
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Basic Information</div>
+      <div class="info-item">
+        <div class="info-label">Phone</div>
+        <div class="info-content">13154956618</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Email</div>
+        <div class="info-content">tomwangst@163.com</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Address</div>
+        <div class="info-content">Sanming, Fuzhou</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Political Status</div>
+        <div class="info-content">Masses</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Education</div>
+      <div class="item-header">
+        <div class="item-title">Quanzhou Ocean Vocational College - Computer Application Technology</div>
+        <div class="item-date">Sep 2023 - Jun 2026</div>
+      </div>
+      <div class="item-details">
+        Associate degree | Main courses: Computer Networks, Database Principles, Web Development, Java Programming
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Skills</div>
+      <div class="skills">
+        <div class="skill-item">Vue / HTML5 / CSS3</div>
+        <div class="skill-item">Microcontroller Development</div>
+        <div class="skill-item">PCB Design and Layout</div>
+        <div class="skill-item">Soldering</div>
+        <div class="skill-item">Android System Architecture</div>
+        <div class="skill-item">C Language</div>
+        <div class="skill-item">JavaScript</div>
+        <div class="skill-item">J2ME Feature Phone Development</div>
+        <div class="skill-item">Expert in DOS-era Windows</div>
+        <div class="skill-item">Senior Hardware Maintenance</div>
+        <div class="skill-item">Virtual Machine Setup</div>
+        <div class="skill-item">Computer Hardware Maintenance</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Awards</div>
+      <div class="item-header">
+        <div class="item-title">16th Lanqiao Cup Software Competition - Web Application Technology, Third Prize</div>
+        <div class="item-date">Apr 12, 2025</div>
+      </div>
+      <div class="item-header">
+        <div class="item-title">16th Lanqiao Cup Electronics Competition - Microcontroller Design and Development, Third Prize</div>
+        <div class="item-date">Apr 13, 2025</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Projects</div>
+      <div class="item-header">
+        TPA3116 Amplifier Design
+        <div class="item-date">2022</div>
+      </div>
+      <div class="item-details">
+        • 2.0 amplifier board with BTL connection using two TPA3116 chips, 100W per channel, supports Bluetooth and AUX input<br />
+        • Bluetooth module: m18<br />
+        • Two potentiometers for volume and balance adjustment
+      </div>
+
+      <div class="item-header">
+        Xirang TPhone K1 Design
+        <div class="item-date">2023</div>
+      </div>
+      <div class="item-details">
+        • Powered by MediaTek 5G platform<br />
+        • Deeply customized Android 13 for Web3<br />
+        • Presented at Hong Kong FinTech
+        <img src="Xirang.jpg" alt="Xirang TPhone K1" class="project-image" />
+      </div>
+
+      <div class="item-header">
+        Old Graphics Card Modding
+        <div class="item-date">2024</div>
+      </div>
+      <div class="item-details">
+        • Replaced aged electrolytic capacitors with solid capacitors; upgraded to high-capacity Winbond ROM chip<br />
+        • Modified BIOS to support UEFI GOP for compatibility with modern systems
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Self-Evaluation</div>
+      <div class="item-details">
+        • Strong organizational and team leadership skills<br />
+        • Quick learner with good communication abilities<br />
+        • Team player, able to integrate into teams rapidly<br />
+        • Responsible, with strong execution and ability to work under pressure<br />
+        • Passionate about new technologies and eager to keep learning and improving
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
